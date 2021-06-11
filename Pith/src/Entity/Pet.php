@@ -38,13 +38,13 @@ class Pet
     private $description;
 
     /**
-     * @ORM\OneToOne(targetEntity=Breed::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $breed;
 
     /**
-     * @ORM\OneToOne(targetEntity=Type::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;
@@ -112,22 +112,25 @@ class Pet
         return $this->breed;
     }
 
-    public function setBreedId(Breed $breed): self
+    public function setBreed(?Breed $breed): self
     {
         $this->breed = $breed;
 
         return $this;
     }
 
-    public function getTypeId(): ?Type
+    public function getType(): ?Type
     {
         return $this->type;
     }
 
-    public function setTypeId(Type $type): self
+    public function setType(?Type $type): self
     {
         $this->type = $type;
 
         return $this;
     }
+
+   
+    
 }
