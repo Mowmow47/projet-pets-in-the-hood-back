@@ -37,6 +37,18 @@ class Pet
      */
     private $description;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Breed::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $breed;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Type::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
+
     public function __toString()
     {
         return $this->name;
@@ -91,6 +103,30 @@ class Pet
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getBreed(): ?Breed
+    {
+        return $this->breed;
+    }
+
+    public function setBreedId(Breed $breed): self
+    {
+        $this->breed = $breed;
+
+        return $this;
+    }
+
+    public function getTypeId(): ?Type
+    {
+        return $this->type;
+    }
+
+    public function setTypeId(Type $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
