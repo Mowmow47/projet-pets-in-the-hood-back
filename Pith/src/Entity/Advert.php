@@ -52,6 +52,12 @@ class Advert
      */
     private $isActive;
 
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->isActive = false;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,5 +145,13 @@ class Advert
         $this->isActive = $isActive;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }
