@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,13 +11,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/api/user")
+ * @Route("/api/user", name="api_user_")
  */
 class UserController extends AbstractController
 {
     /**
      * Method used to see the list of users
-     * @Route("/", name="browse", methods={"GET"})
+     * @Route("", name="browse", methods={"GET"})
      */
     public function browse(UserRepository $userRepository): Response
     {
@@ -89,7 +90,7 @@ class UserController extends AbstractController
 
     /**
      * Method used to modify user profile
-     * @Route("/{id}", name="edit", methods={"PUT"})
+     * @Route("/{id}", name="edit", methods={"PATCH"})
      */
     public function edit(User $user, Request $request)
     {
