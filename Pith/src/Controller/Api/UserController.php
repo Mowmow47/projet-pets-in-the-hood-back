@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
+     * Method used to see the list of users
      * @Route("/", name="browse", methods={"GET"})
      */
     public function browse(UserRepository $userRepository): Response
@@ -27,6 +28,7 @@ class UserController extends AbstractController
     }
 
      /**
+     * Method used to see a specific user
      * @Route("/{id}", name="read", methods={"GET"})
      */
     public function read(User $user)
@@ -37,58 +39,92 @@ class UserController extends AbstractController
     }
 
     /**
-     * Contexte : On fait comme un controleur classique mais on est en API
-     * On reçoit toujours des infos mais on n'a pas de formulaire à afficher
-     * 
+     * Method used to create user profile
      * @Route("", name="add", methods={"POST"})
      */
     public function add(Request $request)
     {
-        // On manipule toujours une entité
+        // We always handle an entity
         $user = new User();
-        // On manipule un formulaire
+        // We handle a form
         $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
 
-         // Notre client envoie du JSON, on le récupère avec getContent()
+         // Our client sends JSON, we get it with getContent()
          $json = $request->getContent();
-         // On décode le JSON pour obtenir un tableau associatif
+         // We decode the JSON to obtain an associative array
          $jsonArray = json_decode($json, true);
  
-         // On envoie notre tableau associatif à notre formulaire
-         // La méthode submit va faire un peu comme handleRequest et prendre chacune
-         // des clées du tableau pour les associer aux inputs du formulaire
-         // Après cette étape, notre objet $user sera automatiquement rempli
-         // Ça nous permet d'associer automatiquement/facilement des données reçues à notre objet $user
-         // De plus, on profite du système de validations selon les contraintes dans nos champs de formulaire
+         // We send our associative array to our form
+         // After this step, our $user object will be automatically filled
+         // It allows us to automatically associate data received with our $user object
+         // In addition, we take advantage of the validation system according to the constraints in our form fields
          $form->submit($jsonArray);
  
-          // On vérifie qu'il n'y a pas d'erreur dans le formulaire
-        // Pas besoin de $form->isSubmitted(), on est sur que le form est envoyé car
-        // on a exécuté nous même la méthode submit()
+        // We check that there is no error in the form
+        // we executed the submit () method ourselves
         if ($form->isValid()) {
-             // On calcule le slug du User
 
-            // S'il n'y a pas d'erreur dans le formulaire, on persiste et on flush
+            // If there is no error in the form, we persist and we flush
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            // On est dans une API, on renvoit l'objet sérialisé pour confirmer son ajout
-            // en précisant un code 201 Created
+            // In an API, we return the serialized object to confirm its addition
+            // by specifying a code 201 Created
             return $this->json($user, Response::HTTP_CREATED, [], [
                 //'groups' => ['user_read'],
             ]);
         }
-
-        // Si le formulaire n'est pas valide, on doit fournir une réponse avec les messages d'erreurs
-        // Tous les messages d'erreurs sont dans $form->getErrors()
-        // avec le booléen true, on précise qu'on veut la liste de toutes les erreurs de tous le schamps du formulaire
-        // Il est possible de parser notre en une string
+        
+        // If the form is not valid, we must provide a response with error messages
+        // All error messages are in $ form-> getErrors ()
+        // with the boolean true, we specify that we want the list of all the errors of all the schamps of the form
         $errorsString = (string) $form->getErrors(true);
 
-        // On peut maintenant préparer une réponse adaptée pour le développeur/logiciel avec le bon code HTTP
+        // We can now prepare an appropriate response for the developer or the software with the correct HTTP code
         return $this->json([
             'errors' => $errorsString,
         ], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Method used to modify user profile
+     * @Route("/{id}", name="edit", methods={"PUT"})
+     */
+    public function edit(User $user, Request $request)
+    {
+        $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
+
+        $json = $request->getContent();
+        $jsonArray = json_decode($json, true);
+
+        $form->submit($jsonArray);
+
+        if ($form->isValid()) {
+            
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->json($user, Response::HTTP_OK, [], [
+                //'groups' => ['user_read'],
+            ]);
+        }
+
+        return $this->json([
+            'errors' => (string) $form->getErrors(true),
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Method used to delete user profile
+     * @Route("/{id}", name="delete", methods={"DELETE"})
+     */
+    public function delete(User $user)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($user);
+        $em->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }
