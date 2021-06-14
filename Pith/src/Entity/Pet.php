@@ -16,7 +16,7 @@ class Pet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"pet_browse", "pet_read",)
      */
     private $id;
 
@@ -45,14 +45,12 @@ class Pet
     /**
      * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"pet_browse", "pet_read"})
      */
     private $breed;
 
     /**
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"pet_browse", "pet_read"})
      */
     private $type;
 
