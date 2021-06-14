@@ -1,0 +1,20 @@
+App\Entity\Breed:
+  breed_{1..10}:
+    name: '<breed()>'
+    createdAt: '<dateTimeBetween("-4 years", "now")>'
+    updatedAt: '<dateTimeBetween($createdAt, "now")>'
+
+App\Entity\Type:
+  breed_{1..2}:
+    name: '<type()>'
+    createdAt: '<dateTimeBetween("-4 years", "now")>'
+    updatedAt: '<dateTimeBetween($createdAt, "now")>'
+
+App\Entity\Pet:
+  pet_{1..10}:
+    name: '<pet()>'
+    createdAt: '<dateTimeBetween("-4 years", "now")>'
+    updatedAt: '<dateTimeBetween($createdAt, "now")>'
+    description: '<description()>'
+    breed: '@breed_*'
+    type: '@type_*'
