@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
 /**
  * @ORM\Entity(repositoryClass=TypeRepository::class)
  */
@@ -23,6 +22,7 @@ class Type
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $name;
 

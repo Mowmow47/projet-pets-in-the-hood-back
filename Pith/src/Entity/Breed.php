@@ -22,6 +22,7 @@ class Breed
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $name;
 

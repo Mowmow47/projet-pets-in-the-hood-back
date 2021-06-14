@@ -33,7 +33,7 @@ class PetController extends AbstractController
     public function read(Pet $pet)
     {
         return $this->json($pet, Response::HTTP_OK, [], [
-            'groups' => ['pet_read'],
+           'groups' => ['pet_read'],
         ]);
     }
 
