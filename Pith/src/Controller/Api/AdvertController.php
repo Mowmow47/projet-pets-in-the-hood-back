@@ -17,10 +17,17 @@ class AdvertController extends AbstractController
 {
     /**
      * @Route("", name="browse", methods={"GET"})
+     * @Route("/{tag}", name="browse_by_tag", methods={"GET"})
      */
-    public function browse(AdvertRepository $advertRepository): Response
+    public function browse(AdvertRepository $advertRepository, string $tag = null): Response
     {
-        $adverts = $advertRepository->findAll();
+        // If a tag is specified in the route parameters, then only the results that matches the tag are retrieved.
+        // The condition can be replaced by " $request->attributes->get('_route') == 'api_advert_browse_by_tag' " instead.
+        if($tag) {
+            $adverts = $advertRepository->findByTag($tag);
+        } else {
+            $adverts = $advertRepository->findAll();
+        }
 
         return $this->json($adverts, Response::HTTP_OK, []);
     }

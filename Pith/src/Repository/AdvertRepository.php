@@ -19,32 +19,27 @@ class AdvertRepository extends ServiceEntityRepository
         parent::__construct($registry, Advert::class);
     }
 
-    // /**
-    //  * @return Advert[] Returns an array of Advert objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Returns an array of Advert objects that matches the specified tag.
+     *
+     * @param string $tag
+     * @return Advert[]
+     */
+    public function findByTag($tag)
     {
+        // TODO : A modifier lorsque le lien avec l'entité Pet et User sera créé
+        if($tag == 'lost') { 
+            $value = false; 
+        } else {
+            $value = true; 
+        }
+
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->andwhere('a.isActive = :value')
+            ->setParameter(':value', $value)
+            ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Advert
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
