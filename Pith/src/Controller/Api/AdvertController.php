@@ -17,7 +17,7 @@ class AdvertController extends AbstractController
 {
     /**
      * @Route("", name="browse", methods={"GET"})
-     * @Route("/{tag}", name="browse_by_tag", methods={"GET"})
+     * @Route("/{tag}", name="browse_by_tag", methods={"GET"}, requirements={"tag"="\D+"})
      */
     public function browse(AdvertRepository $advertRepository, string $tag = null): Response
     {
