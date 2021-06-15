@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\PetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=PetRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Pet
 {
@@ -14,11 +16,13 @@ class Pet
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $name;
 
@@ -34,18 +38,21 @@ class Pet
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $breed;
 
     /**
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $type;
 

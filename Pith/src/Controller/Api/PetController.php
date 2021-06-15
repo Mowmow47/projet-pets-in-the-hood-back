@@ -23,7 +23,7 @@ class PetController extends AbstractController
         $pets = $petRepository->findAll();
 
         return $this->json($pets, Response::HTTP_OK, [], [
-            //'groups' => ['pet_browse'],
+            'groups' => ['pet_browse'],
         ]);
     }
 
@@ -33,7 +33,7 @@ class PetController extends AbstractController
     public function read(Pet $pet)
     {
         return $this->json($pet, Response::HTTP_OK, [], [
-           // 'groups' => ['pet_read'],
+           'groups' => ['pet_read'],
         ]);
     }
 
@@ -57,7 +57,7 @@ class PetController extends AbstractController
             $em->flush();
 
             return $this->json($pet, Response::HTTP_CREATED, [], [
-                //'groups' => ['pet_read'],
+                'groups' => ['pet_read'],
             ]);
         }
 
@@ -85,7 +85,7 @@ class PetController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->json($pet, Response::HTTP_OK, [], [
-                //'groups' => ['pet_read'],
+                'groups' => ['pet_read'],
             ]);
         }
 

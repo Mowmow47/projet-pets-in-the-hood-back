@@ -2,29 +2,28 @@
 
 namespace App\Form;
 
-Use App\Entity\Pet;
+Use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PetType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('id_card')
-            ->add('breed')
-            ->add('type')
-            ->add('tatoo')
-            ->add('description')
+            ->add('email')
+            ->add('firstname')
+            ->add('lastname')
+            ->add('password')
+            ->add('picture')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Pet::class,
+            'data_class' => User::class,
         ]);
     }
 }
