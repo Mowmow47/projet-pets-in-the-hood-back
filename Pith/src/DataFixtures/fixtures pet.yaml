@@ -1,0 +1,15 @@
+
+App\Entity\Breed:
+    breed_{1..20}:
+        name: '<word()>'
+
+App\Entity\Type:
+    type_{1..2}:
+        name: '<word()>'
+
+App\Entity\Pet:
+    pet_{1..20}:
+        name: '<word()>'
+        description: '<sentence()>'
+        breed: '@breed_*'
+        type: '@type_*'
