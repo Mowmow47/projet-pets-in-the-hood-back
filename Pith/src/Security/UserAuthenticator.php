@@ -50,7 +50,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('api_pet_browse'));
+         return new RedirectResponse($this->urlGenerator->generate('some_route'));
         
     }
 
