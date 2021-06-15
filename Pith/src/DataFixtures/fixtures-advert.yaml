@@ -1,0 +1,7 @@
+App\Entity\Advert:
+    pet_{1..20}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
+        isActive: '<boolean()>'

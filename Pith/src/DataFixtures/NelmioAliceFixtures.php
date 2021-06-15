@@ -15,7 +15,7 @@ class NelmioAliceFixtures extends Fixture
 
         $loader = new NativeLoader($faker);
 
-        $entities = $loader->loadFile(__DIR__ . '/fixtures-pet.yaml')->getObjects();
+        $entities = $loader->loadFile(__DIR__ . '/fixtures-advert.yaml')->getObjects();
 
         foreach ($entities as $entity) {
             $em->persist($entity);
