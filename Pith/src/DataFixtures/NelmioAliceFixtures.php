@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Nelmio\Alice\Loader\NativeLoader;
 
-class NelmioAliceFixutres extends Fixture
+class NelmioAliceFixtures extends Fixture
 {
     public function load(ObjectManager $em)
     {
@@ -15,7 +15,7 @@ class NelmioAliceFixutres extends Fixture
 
         $loader = new NativeLoader($faker);
 
-        $entities = $loader->loadFile(__DIR__ . '/fixtures pet.yaml')->getObjects();
+        $entities = $loader->loadFile(__DIR__ . '/fixtures-pet.yaml')->getObjects();
 
         foreach ($entities as $entity) {
             $em->persist($entity);
