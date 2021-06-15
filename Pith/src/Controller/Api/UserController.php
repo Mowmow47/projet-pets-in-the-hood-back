@@ -8,7 +8,9 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/api/user", name="api_user_")
@@ -41,9 +43,9 @@ class UserController extends AbstractController
 
     /**
      * Method used to create user profile
-     * @Route("", name="add", methods={"POST"})
+     * @Route("", name="register", methods={"POST"})
      */
-    public function add(Request $request)
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher)
     {
         // We always handle an entity
         $user = new User();
@@ -64,6 +66,13 @@ class UserController extends AbstractController
         // We check that there is no error in the form
         // we executed the submit () method ourselves
         if ($form->isValid()) {
+
+            $newPassword = $form->get('password')->getData();
+            
+            if ($newPassword != null) {
+                $encodedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($encodedPassword);
+            }
 
             // If there is no error in the form, we persist and we flush
             $em = $this->getDoctrine()->getManager();
@@ -92,7 +101,7 @@ class UserController extends AbstractController
      * Method used to modify user profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(User $user, Request $request)
+    public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher)
     {
         $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
 
@@ -101,8 +110,14 @@ class UserController extends AbstractController
 
         $form->submit($jsonArray);
 
+        $newPassword = $form->get('password')->getData();
+
         if ($form->isValid()) {
             
+            if ($newPassword != null) {
+                $encodedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($encodedPassword);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
