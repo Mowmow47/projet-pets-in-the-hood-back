@@ -67,11 +67,13 @@ class UserController extends AbstractController
         // we executed the submit () method ourselves
         if ($form->isValid()) {
 
+            //We add a new password
             $newPassword = $form->get('password')->getData();
             
+            //We check that it is not null, if it is correct then it will be hashed by the new method what uses "UserPasswordHasherInterface" => hashPassword who hash password
             if ($newPassword != null) {
-                $encodedPassword = $passwordHasher->hashPassword($user, $newPassword);
-                $user->setPassword($encodedPassword);
+                $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
             }
 
             // If there is no error in the form, we persist and we flush
@@ -115,8 +117,8 @@ class UserController extends AbstractController
         if ($form->isValid()) {
             
             if ($newPassword != null) {
-                $encodedPassword = $passwordHasher->hashPassword($user, $newPassword);
-                $user->setPassword($encodedPassword);
+                $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($hashedPassword);
             }
 
             $this->getDoctrine()->getManager()->flush();
