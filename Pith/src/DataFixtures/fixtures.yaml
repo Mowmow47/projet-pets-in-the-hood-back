@@ -1,0 +1,36 @@
+App\Entity\Advert:
+    pet_{1..20}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
+        isActive: '<boolean()>'
+
+App\Entity\Breed:
+    breed_{1..20}:
+        name: '<word()>'
+
+App\Entity\Type:
+    type_{1..2}:
+        name: '<word()>'
+
+App\Entity\Pet:
+    pet_{1..20}:
+        name: '<word()>'
+        description: '<sentence()>'
+        breed: '@breed_*'
+        type: '@type_*'
+
+App\Entity\User:
+    user_1:
+        email: 'o@o.o'
+        roles: ['ROLE_ADMIN']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: 'Morgan'
+        lastname: 'Dup.'
+    user_2:
+        email: 'a@a.a'
+        roles: ['ROLE_USER']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: 'Morgan'
+        lastname: 'Dup.2'

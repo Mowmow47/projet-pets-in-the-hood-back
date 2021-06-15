@@ -51,4 +51,8 @@ security:
     access_control:
         # - { path: ^/login, roles: PUBLIC_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/api, roles: ROLE_USER }
+        # - { path: ^/api, roles: ROLE_USER } // TODO: Souci du côté du JWT à vérifier, bug présent sur l'instance AWS uniquement
+        
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+
