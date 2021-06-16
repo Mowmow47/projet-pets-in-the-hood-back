@@ -1,3 +1,11 @@
+App\Entity\Address:
+    address_{1..200}:
+        city: '<city()>'
+        zipCode: '<randomNumber(5, true)>'
+        street: '<streetAddress()>'
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'
+
 App\Entity\Advert:
     advert_{1..20}:
         title: '<sentence()>'
