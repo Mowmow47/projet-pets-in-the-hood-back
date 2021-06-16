@@ -18,11 +18,11 @@ class AddressController extends AbstractController
     /**
      * @Route("", name="browse", methods={"GET"})
      */
-    public function browse(AddressRepository $addressRepository, string $tag = null): Response
+    public function browse(AddressRepository $addressRepository): Response
     {
-        $addresss = $addressRepository->findAll();
+        $address = $addressRepository->findAll();
 
-        return $this->json($addresss, Response::HTTP_OK, []);
+        return $this->json($address, Response::HTTP_OK, []);
     }
 
     /**

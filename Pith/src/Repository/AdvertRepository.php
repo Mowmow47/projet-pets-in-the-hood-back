@@ -22,7 +22,7 @@ class AdvertRepository extends ServiceEntityRepository
     /**
      * Returns an array of Advert objects that matches the specified tag.
      *
-     * @param string $tag
+     * @param string $tag (lost|found)
      * @return Advert[]
      */
     public function findByTag($tag)
@@ -37,6 +37,8 @@ class AdvertRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->andwhere('a.isActive = :value')
             ->setParameter(':value', $value)
+            ->leftJoin('a.address', 'ad')
+            ->addSelect('ad')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
