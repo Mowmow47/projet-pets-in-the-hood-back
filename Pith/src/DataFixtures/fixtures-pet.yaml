@@ -12,3 +12,4 @@ App\Entity\Pet:
         description: '<sentence()>'
         breed: '@breed_*'
         type: '@type_*'
+        user: '@user_*'

@@ -5,9 +5,11 @@ App\Entity\User:
         password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
         firstname: 'Morgan'
         lastname: 'Dup.'
+        isBlocked: '<boolean()>'
     user_2:
         email: 'a@a.a'
-        roles: ['ROLE_USER']
+        roles: []
         password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
         firstname: 'Morgan'
         lastname: 'Dup.2'
+        isBlocked: '<boolean()>'

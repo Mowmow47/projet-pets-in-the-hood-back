@@ -26,7 +26,7 @@ class UserController extends AbstractController
         $users = $userRepository->findAll();
 
         return $this->json($users, Response::HTTP_OK, [], [
-            //'groups' => ['user_browse'],
+            'groups' => ['user_browse'],
         ]);
     }
 
@@ -37,7 +37,7 @@ class UserController extends AbstractController
     public function read(User $user)
     {
         return $this->json($user, Response::HTTP_OK, [], [
-            //'groups' => ['user_read'],
+            'groups' => ['user_read'],
         ]);
     }
 
@@ -75,7 +75,7 @@ class UserController extends AbstractController
                 $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
                 $user->setPassword($hashedPassword);
             }
-
+            $user->setIsBlocked(false);
             // If there is no error in the form, we persist and we flush
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
@@ -84,7 +84,7 @@ class UserController extends AbstractController
             // In an API, we return the serialized object to confirm its addition
             // by specifying a code 201 Created
             return $this->json($user, Response::HTTP_CREATED, [], [
-                //'groups' => ['user_read'],
+                'groups' => ['user_read'],
             ]);
         }
         
@@ -124,7 +124,7 @@ class UserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->json($user, Response::HTTP_OK, [], [
-                //'groups' => ['user_read'],
+                'groups' => ['user_read'],
             ]);
         }
 

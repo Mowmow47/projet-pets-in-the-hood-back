@@ -23,22 +23,26 @@ class Pet
     /**
      * @ORM\Column(type="string", length=60)
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Groups({"user_browse", "user_read"})
      */
     private $id_card;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Groups({"user_browse", "user_read"})
      */
     private $tatoo;
 
     /**
      * @ORM\Column(type="text")
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
      */
     private $description;
 
@@ -46,6 +50,7 @@ class Pet
      * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
      */
     private $breed;
 
@@ -53,8 +58,16 @@ class Pet
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
      */
     private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="pets")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups({"pet_browse", "pet_read"})
+     */
+    private $user;
 
     public function __toString()
     {
@@ -134,6 +147,18 @@ class Pet
     public function setType(?Type $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

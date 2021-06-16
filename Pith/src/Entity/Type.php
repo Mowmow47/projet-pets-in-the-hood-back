@@ -23,6 +23,7 @@ class Type
     /**
      * @ORM\Column(type="string", length=60)
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
      */
     private $name;
 
