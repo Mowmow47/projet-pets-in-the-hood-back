@@ -1,3 +1,11 @@
+App\Entity\Address:
+    address_{1..200}:
+        city: '<city()>'
+        zipCode: '<randomNumber(5, true)>'
+        street: '<streetAddress()>'
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'
+
 App\Entity\Advert:
     advert_{1..20}:
         title: '<sentence()>'
@@ -5,6 +13,7 @@ App\Entity\Advert:
         date_of_loss: '<dateTimeBetween("-6 months", "now")>'
         date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
         isActive: '<boolean()>'
+        address (unique): '@address_*'
 
 App\Entity\Breed:
     breed_{1..20}:
