@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pet;
 Use App\Form\PetType;
 use App\Repository\PetRepository;
+use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PetController extends AbstractController
 {
     /**
+     * Method used to see the list of pet
      * @Route("", name="browse", methods={"GET"})
      */
     public function browse(PetRepository $petRepository): Response
@@ -28,6 +30,7 @@ class PetController extends AbstractController
     }
 
     /**
+     * Method used to see a specific pet
      * @Route("/{id}", name="read", methods={"GET"})
      */
     public function read(Pet $pet)
@@ -38,9 +41,10 @@ class PetController extends AbstractController
     }
 
      /**
+      * Method used to create a pet profile
      * @Route("", name="add", methods={"POST"})
      */
-    public function add(Request $request)
+    public function add(Request $request, PictureUploader $pictureUploader)
     {
         $pet = new Pet();
     
@@ -51,6 +55,12 @@ class PetController extends AbstractController
  
         
         if ($form->isValid()) {
+
+            $newFileName = $pictureUploader->upload($form, 'picture');
+
+            $pet->setPicture($newFileName);
+            
+            $pet->setUser($this->getUser());
            
             $em = $this->getDoctrine()->getManager();
             $em->persist($pet);
@@ -70,9 +80,10 @@ class PetController extends AbstractController
     }
 
     /**
+     * Method used to modify a pet profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(Pet $pet, Request $request)
+    public function edit(Pet $pet, Request $request, PictureUploader $pictureUploader)
     {
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
@@ -82,6 +93,11 @@ class PetController extends AbstractController
         $form->submit($jsonArray);
 
         if ($form->isValid()) {
+
+            $newFileName = $pictureUploader->upload($form, 'picture');
+
+            $pet->setPicture($newFileName);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->json($pet, Response::HTTP_OK, [], [
@@ -95,6 +111,7 @@ class PetController extends AbstractController
     }
 
     /**
+     * Method used to delete a pet profile
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
     public function delete(Pet $pet)

@@ -69,6 +69,13 @@ class Pet
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=60, nullable=true)
+     * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"user_browse", "user_read"})
+     */
+    private $picture;
+
     public function __toString()
     {
         return $this->name;
@@ -159,6 +166,18 @@ class Pet
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
