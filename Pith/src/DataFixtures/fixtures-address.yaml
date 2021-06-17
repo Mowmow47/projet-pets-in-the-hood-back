@@ -5,3 +5,4 @@ App\Entity\Address:
         street: '<streetAddress()>'
         latitude: '<latitude()>'
         longitude: '<longitude()>'
+        user: '@user_*'

@@ -6,3 +6,5 @@ App\Entity\Advert:
         date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
         isActive: '<boolean()>'
         address (unique): '@address_*'
+        user: '@user_*'
+        pet: '@pet_*'

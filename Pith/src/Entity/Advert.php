@@ -59,6 +59,17 @@ class Advert
      */
     private $address;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="adverts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Pet::class, inversedBy="adverts")
+     */
+    private $pet;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -172,5 +183,29 @@ class Advert
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPet(): ?Pet
+    {
+        return $this->pet;
+    }
+
+    public function setPet(?Pet $pet): self
+    {
+        $this->pet = $pet;
+
+        return $this;
     }
 }
