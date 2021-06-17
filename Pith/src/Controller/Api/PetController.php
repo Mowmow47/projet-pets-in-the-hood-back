@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pet;
 Use App\Form\PetType;
 use App\Repository\PetRepository;
+use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,7 @@ class PetController extends AbstractController
      /**
      * @Route("", name="add", methods={"POST"})
      */
-    public function add(Request $request)
+    public function add(Request $request, PictureUploader $pictureUploader)
     {
         $pet = new Pet();
     
@@ -51,6 +52,12 @@ class PetController extends AbstractController
  
         
         if ($form->isValid()) {
+
+            $newFileName = $pictureUploader->upload($form, 'picture');
+
+            $pet->setPicture($newFileName);
+            //dd($pictureUploader);
+            $pet->setUser($this->getUser());
            
             $em = $this->getDoctrine()->getManager();
             $em->persist($pet);
