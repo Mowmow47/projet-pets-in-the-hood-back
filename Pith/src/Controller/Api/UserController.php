@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +45,7 @@ class UserController extends AbstractController
      * Method used to create user profile
      * @Route("", name="register", methods={"POST"})
      */
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher)
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, PictureUploader $pictureUploader)
     {
         // We always handle an entity
         $user = new User();
@@ -65,6 +66,9 @@ class UserController extends AbstractController
         // We check that there is no error in the form
         // we executed the submit () method ourselves
         if ($form->isValid()) {
+
+            $newFileName = $pictureUploader->upload($form, 'picture');
+            $user->setPicture($newFileName);
 
             //We add a new password
             $newPassword = $form->get('password')->getData();
@@ -102,7 +106,7 @@ class UserController extends AbstractController
      * Method used to modify user profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher)
+    public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher, PictureUploader $pictureUploader)
     {
         $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
 
@@ -110,6 +114,9 @@ class UserController extends AbstractController
         $jsonArray = json_decode($json, true);
 
         $form->submit($jsonArray);
+
+        $newFileName = $pictureUploader->upload($form, 'picture');
+        $user->setPicture($newFileName);
 
         $newPassword = $form->get('password')->getData();
 
