@@ -29,7 +29,9 @@ class AdvertController extends AbstractController
             $adverts = $advertRepository->findAll();
         }
 
-        return $this->json($adverts, Response::HTTP_OK, []);
+        return $this->json($adverts, Response::HTTP_OK, [], [
+            'groups' => ['advert_browse'],
+        ]);
     }
 
     /**
@@ -37,7 +39,9 @@ class AdvertController extends AbstractController
      */
     public function read(Advert $advert): Response
     {
-        return $this->json($advert, Response::HTTP_OK, []);
+        return $this->json($advert, Response::HTTP_OK,[], [
+            'groups' => ['advert_read'],
+        ]);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdvertRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AdvertRepository::class)
@@ -20,11 +21,13 @@ class Advert
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $description;
 

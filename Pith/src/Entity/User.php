@@ -80,6 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
+     * @Groups({"user_browse", "user_read"}) 
      */
     private $address;
 

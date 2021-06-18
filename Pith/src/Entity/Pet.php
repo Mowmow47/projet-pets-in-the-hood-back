@@ -19,6 +19,7 @@ class Pet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $id;
 
