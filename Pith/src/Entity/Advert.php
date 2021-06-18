@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AdvertRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=AdvertRepository::class)
@@ -20,11 +21,13 @@ class Advert
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $description;
 
@@ -58,6 +61,17 @@ class Advert
      * @ORM\JoinColumn(nullable=false)
      */
     private $address;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="adverts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Pet::class, inversedBy="adverts")
+     */
+    private $pet;
 
     public function __construct()
     {
@@ -172,5 +186,29 @@ class Advert
     public function preUpdate()
     {
         $this->updatedAt = new \DateTime();
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPet(): ?Pet
+    {
+        return $this->pet;
+    }
+
+    public function setPet(?Pet $pet): self
+    {
+        $this->pet = $pet;
+
+        return $this;
     }
 }

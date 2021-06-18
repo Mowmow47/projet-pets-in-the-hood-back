@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PetRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -17,6 +19,7 @@ class Pet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $id;
 
@@ -75,6 +78,16 @@ class Pet
      * @Groups({"user_browse", "user_read"})
      */
     private $picture;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Advert::class, mappedBy="pet")
+     */
+    private $adverts;
+
+    public function __construct()
+    {
+        $this->adverts = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -178,6 +191,36 @@ class Pet
     public function setPicture(?string $picture): self
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advert[]
+     */
+    public function getAdverts(): Collection
+    {
+        return $this->adverts;
+    }
+
+    public function addAdvert(Advert $advert): self
+    {
+        if (!$this->adverts->contains($advert)) {
+            $this->adverts[] = $advert;
+            $advert->setPet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdvert(Advert $advert): self
+    {
+        if ($this->adverts->removeElement($advert)) {
+            // set the owning side to null (unless already changed)
+            if ($advert->getPet() === $this) {
+                $advert->setPet(null);
+            }
+        }
 
         return $this;
     }
