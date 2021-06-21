@@ -7,10 +7,13 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/api/user", name="api_user_")
@@ -153,14 +156,23 @@ class UserController extends AbstractController
     {
         $picture = $request->files->get('picture');
         
-        $pictureFileName = $pictureUploader->upload($picture, 'user');
+        if($picture) {
+
+            try {
+                $pictureFileName = $pictureUploader->upload($picture, 'user');  
+            } catch (\Exception $e) {
+                throw new UnsupportedMediaTypeHttpException($e);
+            }
+    
+            $user->setPicture($pictureFileName);
+    
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+    
+            return new JsonResponse($pictureFileName, Response::HTTP_OK);
+        }         
         
-        $user->setPicture($pictureFileName);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
-
-        // TODO : Voir ce qu'il faut retourner au front et sous quel format.
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
 }
