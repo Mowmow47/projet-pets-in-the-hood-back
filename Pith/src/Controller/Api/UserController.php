@@ -152,9 +152,9 @@ class UserController extends AbstractController
     public function uploadPicture(User $user, Request $request, PictureUploader $pictureUploader)
     {
         $picture = $request->files->get('picture');
-
+        
         $pictureFileName = $pictureUploader->upload($picture, 'user');
-
+        
         $user->setPicture($pictureFileName);
 
         $em = $this->getDoctrine()->getManager();
