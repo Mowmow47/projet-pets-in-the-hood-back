@@ -4,31 +4,36 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PictureUploader
 {
     private $targetDirectory;
     private $slugger;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct($targetDirectory)
     {
         $this->targetDirectory = $targetDirectory;
-        $this->slugger = $slugger;
     }
 
     public function upload(UploadedFile $file, $entity)
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $fileName = $entity.'-'.uniqid().'-'.time().'.'.$file->guessExtension();
+        $extension = $file->guessExtension();
+        $formats = ['jpg', 'png'];
 
-        try {
-            $file->move($this->getTargetDirectory(), $fileName);
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+        if (in_array($extension, $formats)) {
+
+            $fileName = $entity.'-'.uniqid().'-'.time().'.'.$file->guessExtension();
+
+            try {
+                $file->move($this->getTargetDirectory(), $fileName);
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            return $fileName;
         }
 
-        return $fileName;
+        throw new \Exception('Le format de fichier n\'est pas valide');
     }
 
     public function getTargetDirectory()
