@@ -45,7 +45,7 @@ class UserController extends AbstractController
      * Method used to create user profile
      * @Route("", name="register", methods={"POST"})
      */
-    public function register(Request $request, UserPasswordHasherInterface $passwordHasher, PictureUploader $pictureUploader)
+    public function register(Request $request, UserPasswordHasherInterface $passwordHasher)
     {
         // We always handle an entity
         $user = new User();
@@ -66,9 +66,6 @@ class UserController extends AbstractController
         // We check that there is no error in the form
         // we executed the submit () method ourselves
         if ($form->isValid()) {
-
-            $newFileName = $pictureUploader->upload($form, 'picture');
-            $user->setPicture($newFileName);
 
             //We add a new password
             $newPassword = $form->get('password')->getData();
@@ -106,7 +103,7 @@ class UserController extends AbstractController
      * Method used to modify user profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher, PictureUploader $pictureUploader)
+    public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher)
     {
         $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
 
@@ -114,13 +111,10 @@ class UserController extends AbstractController
         $jsonArray = json_decode($json, true);
 
         $form->submit($jsonArray);
-
-        $newFileName = $pictureUploader->upload($form, 'picture');
-        $user->setPicture($newFileName);
-
-        $newPassword = $form->get('password')->getData();
-
+        
         if ($form->isValid()) {
+            
+            $newPassword = $form->get('password')->getData();
             
             if ($newPassword != null) {
                 $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
@@ -150,5 +144,23 @@ class UserController extends AbstractController
         $em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
+     */
+    public function uploadPicture(User $user, Request $request, PictureUploader $pictureUploader)
+    {
+        $picture = $request->files->get('picture');
+
+        $pictureFileName = $pictureUploader->upload($picture, 'user');
+
+        $user->setPicture($pictureFileName);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        // TODO : Voir ce qu'il faut retourner au front et sous quel format.
     }
 }

@@ -2,37 +2,37 @@
 
 namespace App\Service;
 
-use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PictureUploader
 {
-    /**
-     * Move a received file into a form
-     *
-     * @param Form $form The form from which to extract the picture field
-     * @param string $fieldName The name of the control containing the picture * file
-     * @return string The new file name
-     */
-    public function upload(Form $form, string $fieldName, string $fileName = null)
-    {
-        
-        $pictureFile = $form->get($fieldName)->getData();
+    private $targetDirectory;
+    private $slugger;
 
-        if ($pictureFile !== null) {
-            
-            $newFileName = $fileName ?? $this->createFileName($pictureFile);
-            
-            $pictureFile->move($_ENV['PICTURES_DIRECTORY'], $newFileName);
-            
-            return $newFileName;
+    public function __construct($targetDirectory, SluggerInterface $slugger)
+    {
+        $this->targetDirectory = $targetDirectory;
+        $this->slugger = $slugger;
+    }
+
+    public function upload(UploadedFile $file, $entity)
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $fileName = $entity.'-'.uniqid().'-'.time().'.'.$file->guessExtension();
+
+        try {
+            $file->move($this->getTargetDirectory(), $fileName);
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
         }
 
         return $fileName;
     }
 
-    public function createFileName(UploadedFile $file)
+    public function getTargetDirectory()
     {
-        return uniqid() . '.' .$file->guessClientExtension();
+        return $this->targetDirectory;
     }
 }

@@ -18,10 +18,7 @@ class UserType extends AbstractType
             ->add('lastname')
             ->add('password')
             ->add('address')
-            ->add('picture', FileType::class, [
-                'required' => false,
-                'mapped' => false,
-            ])
+            ->add('picture', FileType::class)
             ->add('pets')
             
         ;
