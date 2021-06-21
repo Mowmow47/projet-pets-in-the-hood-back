@@ -84,9 +84,11 @@ class UserController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $userId = $user->getId();
+
             // In an API, we return the serialized object to confirm its addition
             // by specifying a code 201 Created
-            return $this->json($user, Response::HTTP_CREATED, [], [
+            return $this->json([$user, $userId], Response::HTTP_CREATED, [], [
                 'groups' => ['user_read'],
             ]);
         }

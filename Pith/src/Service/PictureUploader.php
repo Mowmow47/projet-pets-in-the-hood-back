@@ -18,7 +18,7 @@ class PictureUploader
     public function upload(UploadedFile $file, $entity)
     {
         $extension = $file->guessExtension();
-        $formats = ['jpg', 'png'];
+        $formats = ['jpg', 'png', 'svg'];
 
         if (in_array($extension, $formats)) {
 
