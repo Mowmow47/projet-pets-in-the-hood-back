@@ -1,8 +1,4 @@
 App\Entity\Address:
     address_{1..200}:
-        city: '<city()>'
-        zipCode: '<randomNumber(5, true)>'
-        street: '<streetAddress()>'
         latitude: '<latitude()>'
         longitude: '<longitude()>'
-        user: '@user_*'
