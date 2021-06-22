@@ -60,7 +60,7 @@ class AddressController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="edit", methods={"POST"})
+     * @Route("/{id}", name="edit", methods={"PATCH"})
      */
     public function edit(Address $address, Request $request): Response
     {

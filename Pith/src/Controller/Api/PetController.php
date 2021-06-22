@@ -47,7 +47,7 @@ class PetController extends AbstractController
     public function add(Request $request)
     {
         $pet = new Pet();
-    
+        
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $jsonArray = json_decode($request->getContent(), true);
