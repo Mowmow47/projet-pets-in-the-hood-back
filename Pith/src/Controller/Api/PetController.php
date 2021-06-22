@@ -49,16 +49,12 @@ class PetController extends AbstractController
     public function add(Request $request)
     {
         $pet = new Pet();
-        
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $jsonArray = json_decode($request->getContent(), true);
         $form->submit($jsonArray);
  
-        
         if ($form->isValid()) {
-
-            $pet->setUser($this->getUser());
            
             $em = $this->getDoctrine()->getManager();
             $em->persist($pet);
@@ -68,12 +64,9 @@ class PetController extends AbstractController
                 'groups' => ['pet_read'],
             ]);
         }
-
-        $errorsString = (string) $form->getErrors(true);
-
         
         return $this->json([
-            'errors' => $errorsString,
+            'errors' => (string) $form->getErrors(true),
         ], Response::HTTP_BAD_REQUEST);
     }
 

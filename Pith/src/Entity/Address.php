@@ -20,13 +20,13 @@ class Address
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"advert_browse", "advert_read", "user_browse", "user_read"}) 
      */
     private $latitude;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"advert_browse", "advert_read", "user_browse", "user_read"}) 
      */
     private $longitude;
 
