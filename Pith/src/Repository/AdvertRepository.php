@@ -29,13 +29,13 @@ class AdvertRepository extends ServiceEntityRepository
     {
         // TODO : A modifier lorsque le lien avec l'entité Pet et User sera créé
         if($tag == 'lost') { 
-            $value = false; 
+            $value = null; 
         } else {
             $value = true; 
         }
 
         return $this->createQueryBuilder('a')
-            ->andwhere('a.isActive = :value')
+            ->andwhere('a.pet = :value')
             ->setParameter(':value', $value)
             ->leftJoin('a.address', 'ad')
             ->addSelect('ad')

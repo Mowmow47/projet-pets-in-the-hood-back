@@ -65,7 +65,9 @@ class AdvertController extends AbstractController
             $em->persist($advert);
             $em->flush();
             
-            return $this->json($advert, Response::HTTP_CREATED, []);
+            return $this->json($advert, Response::HTTP_CREATED, [], [
+                'groups' => ['advert_read'],
+            ]);
         }
 
         $errorsString = (string) $form->getErrors(true);
@@ -73,7 +75,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="edit", methods={"POST"})
+     * @Route("/{id}", name="edit", methods={"PATCH"})
      */
     public function edit(Advert $advert, Request $request): Response
     {

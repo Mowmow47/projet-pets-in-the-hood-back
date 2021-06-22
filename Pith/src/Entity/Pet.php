@@ -19,7 +19,6 @@ class Pet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"advert_browse", "advert_read"})
      */
     private $id;
 
@@ -27,6 +26,7 @@ class Pet
      * @ORM\Column(type="string", length=60)
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $name;
 
@@ -39,6 +39,7 @@ class Pet
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_read"})
      */
     private $tatoo;
 
@@ -46,6 +47,7 @@ class Pet
      * @ORM\Column(type="text")
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_read"})
      */
     private $description;
 
@@ -54,6 +56,7 @@ class Pet
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $breed;
 
@@ -62,6 +65,7 @@ class Pet
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $type;
 
@@ -76,6 +80,7 @@ class Pet
      * @ORM\Column(type="string", length=60, nullable=true)
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $picture;
 

@@ -33,21 +33,25 @@ class Advert
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"advert_read"})
      */
     private $dateOfLoss;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"advert_read"})
      */
     private $dateOfDiscovery;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"advert_read"})
      */
     private $updatedAt;
 
@@ -70,6 +74,7 @@ class Advert
 
     /**
      * @ORM\ManyToOne(targetEntity=Pet::class, inversedBy="adverts")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $pet;
 

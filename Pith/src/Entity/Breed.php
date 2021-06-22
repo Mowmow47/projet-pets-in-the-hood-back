@@ -24,6 +24,7 @@ class Breed
      * @ORM\Column(type="string", length=60)
      * @Groups({"pet_browse", "pet_read"})
      * @Groups({"user_browse", "user_read"})
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $name;
 
