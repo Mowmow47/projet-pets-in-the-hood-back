@@ -44,10 +44,10 @@ class PetController extends AbstractController
       * Method used to create a pet profile
      * @Route("", name="add", methods={"POST"})
      */
-    public function add(Request $request, PictureUploader $pictureUploader)
+    public function add(Request $request)
     {
         $pet = new Pet();
-    
+        
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $jsonArray = json_decode($request->getContent(), true);
@@ -56,10 +56,6 @@ class PetController extends AbstractController
         
         if ($form->isValid()) {
 
-            $newFileName = $pictureUploader->upload($form, 'picture');
-
-            $pet->setPicture($newFileName);
-            
             $pet->setUser($this->getUser());
            
             $em = $this->getDoctrine()->getManager();
@@ -83,7 +79,7 @@ class PetController extends AbstractController
      * Method used to modify a pet profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(Pet $pet, Request $request, PictureUploader $pictureUploader)
+    public function edit(Pet $pet, Request $request)
     {
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
@@ -93,10 +89,6 @@ class PetController extends AbstractController
         $form->submit($jsonArray);
 
         if ($form->isValid()) {
-
-            $newFileName = $pictureUploader->upload($form, 'picture');
-
-            $pet->setPicture($newFileName);
 
             $this->getDoctrine()->getManager()->flush();
 
