@@ -7,8 +7,10 @@ Use App\Form\PetType;
 use App\Repository\PetRepository;
 use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -113,5 +115,32 @@ class PetController extends AbstractController
         $em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
+     */
+    public function uploadPicture(Pet $pet, Request $request, PictureUploader $pictureUploader)
+    {
+        $picture = $request->files->get('picture');
+        
+        if($picture) {
+
+            try {
+                $pictureFileName = $pictureUploader->upload($picture, 'pet');  
+            } catch (\Exception $e) {
+                throw new UnsupportedMediaTypeHttpException($e);
+            }
+    
+            $pet->setPicture($pictureFileName);
+    
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($pet);
+            $em->flush();
+    
+            return new JsonResponse($pictureFileName, Response::HTTP_OK);
+        }         
+        
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
 }
