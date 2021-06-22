@@ -16,6 +16,7 @@ class Advert
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $id;
 
@@ -32,22 +33,26 @@ class Advert
     private $description;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $dateOfLoss;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $dateOfDiscovery;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"advert_read"})
      */
     private $updatedAt;
 
@@ -59,19 +64,28 @@ class Advert
     /**
      * @ORM\OneToOne(fetch = "EAGER", targetEntity=Address::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $address;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="adverts")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Pet::class, inversedBy="adverts")
+     * @Groups({"advert_browse", "advert_read"})
      */
     private $pet;
+
+    /**
+     * @ORM\Column(type="string", length=60, nullable=true)
+     * @Groups({"advert_browse", "advert_read"})
+     */
+    private $picture;
 
     public function __construct()
     {
@@ -180,14 +194,6 @@ class Advert
         return $this;
     }
 
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -210,5 +216,25 @@ class Advert
         $this->pet = $pet;
 
         return $this;
+    }
+
+    public function getPicture(): ?string
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?string $picture): self
+    {
+        $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
     }
 }

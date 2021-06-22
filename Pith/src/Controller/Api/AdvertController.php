@@ -5,9 +5,12 @@ namespace App\Controller\Api;
 use App\Entity\Advert;
 use App\Form\AdvertType;
 use App\Repository\AdvertRepository;
+use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -59,13 +62,13 @@ class AdvertController extends AbstractController
 
         if($form->isValid()) {
 
-            $advert->setDateOfLoss(new \DateTime());
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();
             
-            return $this->json($advert, Response::HTTP_CREATED, []);
+            return $this->json($advert, Response::HTTP_CREATED, [], [
+                'groups' => ['advert_read'],
+            ]);
         }
 
         $errorsString = (string) $form->getErrors(true);
@@ -73,7 +76,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="edit", methods={"POST"})
+     * @Route("/{id}", name="edit", methods={"PATCH"})
      */
     public function edit(Advert $advert, Request $request): Response
     {
@@ -88,7 +91,9 @@ class AdvertController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
             
-            return $this->json($advert, Response::HTTP_OK, []);
+            return $this->json($advert, Response::HTTP_OK, [], [
+                'groups' => ['advert_read'],
+            ]);
         }
 
         $errorsString = (string) $form->getErrors(true);
@@ -105,5 +110,32 @@ class AdvertController extends AbstractController
         $em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
+     */
+    public function uploadPicture(Advert $advert, Request $request, PictureUploader $pictureUploader)
+    {
+        $picture = $request->files->get('picture');
+        
+        if($picture) {
+
+            try {
+                $pictureFileName = $pictureUploader->upload($picture, 'advert');  
+            } catch (\Exception $e) {
+                throw new UnsupportedMediaTypeHttpException($e);
+            }
+    
+            $advert->setPicture($pictureFileName);
+    
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
+    
+            return new JsonResponse($pictureFileName, Response::HTTP_OK);
+        }         
+        
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
 }

@@ -1,8 +1,5 @@
 App\Entity\Address:
     address_{1..200}:
-        city: '<city()>'
-        zipCode: '<randomNumber(5, true)>'
-        street: '<streetAddress()>'
         latitude: '<latitude()>'
         longitude: '<longitude()>'
 
@@ -17,6 +14,15 @@ App\Entity\Advert:
         user: '@user_*'
         pet: '@pet_*'
 
+    advert_{21..40}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
+        isActive: '<boolean()>'
+        address (unique): '@address_*'
+        user: '@user_*'
+
 App\Entity\Breed:
     breed_{1..20}:
         name: '<word()>'
@@ -28,6 +34,8 @@ App\Entity\Type:
 App\Entity\Pet:
     pet_{1..20}:
         name: '<word()>'
+        id_card: '<regexify("25026[0-9]{10}")>'
+        tatoo: '<regexify("[0-9]{3}[A-Z]{3}")>'
         description: '<sentence()>'
         breed: '@breed_*'
         type: '@type_*'

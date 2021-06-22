@@ -19,49 +19,44 @@ class Pet
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"advert_browse", "advert_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_read", "user_browse", "user_read", "advert_read"})
      */
     private $id_card;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_read", "user_browse", "user_read", "advert_read"})
      */
     private $tatoo;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read"})
      */
     private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read"})
      */
     private $breed;
 
     /**
      * @ORM\ManyToOne(targetEntity=Type::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read"})
      */
     private $type;
 
@@ -74,8 +69,7 @@ class Pet
 
     /**
      * @ORM\Column(type="string", length=60, nullable=true)
-     * @Groups({"pet_browse", "pet_read"})
-     * @Groups({"user_browse", "user_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read"})
      */
     private $picture;
 

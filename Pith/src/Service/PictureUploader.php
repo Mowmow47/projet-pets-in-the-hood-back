@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class PictureUploader
 {
     private $targetDirectory;
-    private $slugger;
 
     public function __construct($targetDirectory)
     {

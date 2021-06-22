@@ -21,7 +21,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"pet_browse", "pet_read", "advert_browse", "advert_read"})
      */
     private $id;
 
@@ -46,19 +46,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"user_browse", "user_read", "advert_browse", "advert_read"}) 
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"user_browse", "user_read", "advert_browse", "advert_read"}) 
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=60, nullable=true)
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"user_browse", "user_read", "advert_browse", "advert_read"}) 
      */
     private $picture;
 
@@ -80,7 +80,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
-     * @Groups({"user_browse", "user_read"}) 
+     * @Groups({"user_browse", "user_read", "advert_browse", "advert_read"}) 
      */
     private $address;
 

@@ -9,6 +9,8 @@ App\Entity\Type:
 App\Entity\Pet:
     pet_{1..20}:
         name: '<word()>'
+        id_card: '<regexify("25026[0-9]{10}")>'
+        tatoo: '<regexify("[0-9]{3}[A-Z]{3}")>'
         description: '<sentence()>'
         breed: '@breed_*'
         type: '@type_*'

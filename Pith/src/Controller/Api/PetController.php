@@ -7,8 +7,10 @@ Use App\Form\PetType;
 use App\Repository\PetRepository;
 use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -44,23 +46,15 @@ class PetController extends AbstractController
       * Method used to create a pet profile
      * @Route("", name="add", methods={"POST"})
      */
-    public function add(Request $request, PictureUploader $pictureUploader)
+    public function add(Request $request)
     {
         $pet = new Pet();
-    
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $jsonArray = json_decode($request->getContent(), true);
         $form->submit($jsonArray);
  
-        
         if ($form->isValid()) {
-
-            $newFileName = $pictureUploader->upload($form, 'picture');
-
-            $pet->setPicture($newFileName);
-            
-            $pet->setUser($this->getUser());
            
             $em = $this->getDoctrine()->getManager();
             $em->persist($pet);
@@ -70,12 +64,9 @@ class PetController extends AbstractController
                 'groups' => ['pet_read'],
             ]);
         }
-
-        $errorsString = (string) $form->getErrors(true);
-
         
         return $this->json([
-            'errors' => $errorsString,
+            'errors' => (string) $form->getErrors(true),
         ], Response::HTTP_BAD_REQUEST);
     }
 
@@ -83,7 +74,7 @@ class PetController extends AbstractController
      * Method used to modify a pet profile
      * @Route("/{id}", name="edit", methods={"PATCH"})
      */
-    public function edit(Pet $pet, Request $request, PictureUploader $pictureUploader)
+    public function edit(Pet $pet, Request $request)
     {
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
@@ -93,10 +84,6 @@ class PetController extends AbstractController
         $form->submit($jsonArray);
 
         if ($form->isValid()) {
-
-            $newFileName = $pictureUploader->upload($form, 'picture');
-
-            $pet->setPicture($newFileName);
 
             $this->getDoctrine()->getManager()->flush();
 
@@ -121,5 +108,32 @@ class PetController extends AbstractController
         $em->flush();
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
+     */
+    public function uploadPicture(Pet $pet, Request $request, PictureUploader $pictureUploader)
+    {
+        $picture = $request->files->get('picture');
+        
+        if($picture) {
+
+            try {
+                $pictureFileName = $pictureUploader->upload($picture, 'pet');  
+            } catch (\Exception $e) {
+                throw new UnsupportedMediaTypeHttpException($e);
+            }
+    
+            $pet->setPicture($pictureFileName);
+    
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($pet);
+            $em->flush();
+    
+            return new JsonResponse($pictureFileName, Response::HTTP_OK);
+        }         
+        
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
 }

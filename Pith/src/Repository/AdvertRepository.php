@@ -27,16 +27,17 @@ class AdvertRepository extends ServiceEntityRepository
      */
     public function findByTag($tag)
     {
-        // TODO : A modifier lorsque le lien avec l'entité Pet et User sera créé
+
         if($tag == 'lost') { 
-            $value = false; 
+            $condition = ' IS NOT NULL'; 
         } else {
-            $value = true; 
+            $condition = ' IS NULL'; 
         }
 
         return $this->createQueryBuilder('a')
-            ->andwhere('a.isActive = :value')
-            ->setParameter(':value', $value)
+            ->andwhere('a.isActive = :active')
+            ->setParameter(':active', true)
+            ->andWhere('a.pet'.$condition)
             ->leftJoin('a.address', 'ad')
             ->addSelect('ad')
             ->orderBy('a.createdAt', 'DESC')

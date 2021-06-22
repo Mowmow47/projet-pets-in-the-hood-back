@@ -4,7 +4,6 @@ namespace App\Form;
 
 Use App\Entity\Pet;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,15 +14,11 @@ class PetType extends AbstractType
         $builder
             ->add('name')
             ->add('id_card')
+            ->add('tatoo')
+            ->add('description')
             ->add('breed')
             ->add('type')
             ->add('user')
-            ->add('tatoo')
-            ->add('description')
-            ->add('picture', FileType::class, [
-                'required' => false,
-                'mapped' => false,
-            ])
         ;
     }
 
