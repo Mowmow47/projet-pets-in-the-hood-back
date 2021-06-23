@@ -38,7 +38,7 @@ class Pet
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Groups({"pet_read", "user_browse", "user_read", "advert_read"})
      */
-    private $tatoo;
+    private $tattoo;
 
     /**
      * @ORM\Column(type="text")
@@ -117,14 +117,14 @@ class Pet
         return $this;
     }
 
-    public function getTatoo(): ?string
+    public function getTattoo(): ?string
     {
-        return $this->tatoo;
+        return $this->tattoo;
     }
 
-    public function setTatoo(?string $tatoo): self
+    public function setTattoo(?string $tattoo): self
     {
-        $this->tatoo = $tatoo;
+        $this->tattoo = $tattoo;
 
         return $this;
     }
