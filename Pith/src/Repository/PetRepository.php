@@ -19,32 +19,19 @@ class PetRepository extends ServiceEntityRepository
         parent::__construct($registry, Pet::class);
     }
 
-    // /**
-    //  * @return Pet[] Returns an array of Pet objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * Returns an array of Pet objects that matches the specified query.
+     *
+     * @param string $query the search input value
+     * @return Pet[]
+     */
+    public function findByCriteria($criteria, $query)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
+            ->andwhere('p.'.$criteria.'= :query')
+            ->setParameter(':query', $query)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Pet
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

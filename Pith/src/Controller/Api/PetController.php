@@ -111,6 +111,27 @@ class PetController extends AbstractController
     }
 
     /**
+     * @Route("/search", name="search", methods={"POST"})
+     */
+    public function search(Request $request, PetRepository $petRepository): Response
+    {
+        // Refers the value of the search input
+        $searchQuery = $request->query->get('q');
+        
+        // if the value match the following pattern ???### (? = digit # = letter) 
+        // the search input value is a tattoo, otherwise it's the name of a pet.
+        if(preg_match('(^\d{3}[A-Z]{3}$)', $searchQuery)) {
+            $pets = $petRepository->findByCriteria('tattoo', $searchQuery);
+        } else {
+            $pets = $petRepository->findByCriteria('name', $searchQuery);
+        }
+
+        return $this->json($pets, Response::HTTP_OK, [], [
+            'groups' => ['pet_browse'],
+        ]);
+    }
+
+    /**
      * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
      */
     public function uploadPicture(Pet $pet, Request $request, PictureUploader $pictureUploader)
