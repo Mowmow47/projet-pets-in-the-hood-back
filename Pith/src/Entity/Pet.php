@@ -75,6 +75,7 @@ class Pet
 
     /**
      * @ORM\OneToMany(targetEntity=Advert::class, mappedBy="pet")
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $adverts;
 

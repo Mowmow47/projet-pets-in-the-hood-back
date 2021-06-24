@@ -17,6 +17,7 @@ class Advert
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * @Groups({"advert_browse", "advert_read"})
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $id;
 
@@ -58,6 +59,8 @@ class Advert
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({"advert_read"})
+     * @Groups({"pet_browse", "pet_read"})
      */
     private $isActive;
 

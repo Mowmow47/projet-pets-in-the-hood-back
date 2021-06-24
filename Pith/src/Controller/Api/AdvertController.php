@@ -29,7 +29,7 @@ class AdvertController extends AbstractController
         if($tag) {
             $adverts = $advertRepository->findByTag($tag);
         } else {
-            $adverts = $advertRepository->findAll();
+            $adverts = $advertRepository->findBy(['isActive' => true]);
         }
 
         return $this->json($adverts, Response::HTTP_OK, [], [
