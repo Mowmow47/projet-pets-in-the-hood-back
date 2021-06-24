@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 use App\Entity\Pet;
 Use App\Form\PetType;
 use App\Repository\PetRepository;
+use App\Repository\BreedRepository;
 use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +34,7 @@ class PetController extends AbstractController
 
     /**
      * Method used to see a specific pet
-     * @Route("/{id}", name="read", methods={"GET"})
+     * @Route("/{id}", name="read", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function read(Pet $pet)
     {
@@ -156,5 +157,18 @@ class PetController extends AbstractController
         }         
         
         return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Method used to see the list of breeds
+     * @Route("/breed", name="breed_Browse", methods={"GET"})
+     */
+    public function breedBrowse(BreedRepository $breedRepository): Response
+    {
+        $breeds = $breedRepository->findAll();
+
+        return $this->json($breeds, Response::HTTP_OK, [], [
+            'groups' => ['breed_browse'],
+        ]);
     }
 }

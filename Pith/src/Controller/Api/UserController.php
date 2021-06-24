@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -20,14 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * Method used to see the list of users
+     * Method used to see the list of breeds
      * @Route("", name="browse", methods={"GET"})
      */
     public function browse(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findAll();
+        $breeds = $userRepository->findAll();
 
-        return $this->json($users, Response::HTTP_OK, [], [
+        return $this->json($breeds, Response::HTTP_OK, [], [
             'groups' => ['user_browse'],
         ]);
     }
@@ -176,4 +177,5 @@ class UserController extends AbstractController
         
         return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
+
 }

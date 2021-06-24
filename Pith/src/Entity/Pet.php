@@ -49,7 +49,7 @@ class Pet
     /**
      * @ORM\ManyToOne(targetEntity=Breed::class, inversedBy="pets")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read",})
      */
     private $breed;
 
