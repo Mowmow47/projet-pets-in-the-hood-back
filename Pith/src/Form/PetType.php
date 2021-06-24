@@ -14,7 +14,7 @@ class PetType extends AbstractType
         $builder
             ->add('name')
             ->add('id_card')
-            ->add('tatoo')
+            ->add('tattoo')
             ->add('description')
             ->add('breed')
             ->add('type')
