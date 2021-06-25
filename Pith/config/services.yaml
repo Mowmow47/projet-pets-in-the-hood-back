@@ -32,3 +32,5 @@ services:
     App\Service\PictureUploader:
         arguments:
             $targetDirectory: '%pictures_directory%'
+
+    App\DataFixtures\Faker\Provider\UserProvider: ~ # Correspond au namespace concaténé avec le nom du Service
