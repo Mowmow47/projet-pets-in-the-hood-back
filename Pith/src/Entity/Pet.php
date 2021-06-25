@@ -74,7 +74,7 @@ class Pet
     private $picture;
 
     /**
-     * @ORM\OneToMany(targetEntity=Advert::class, mappedBy="pet")
+     * @ORM\OneToMany(targetEntity=Advert::class, mappedBy="pet", cascade={"persist", "remove"})
      * @Groups({"pet_browse", "pet_read"})
      */
     private $adverts;
