@@ -53,6 +53,8 @@ class AdvertController extends AbstractController
     public function add(Request $request): Response
     {
         $advert = new Advert();
+        $this->denyAccessUnlessGranted('ADVERT_ADD', $advert);
+    
         $form = $this->createForm(AdvertType::class, $advert, ['csrf_protection' => false]);
 
         $json = $request->getContent();
@@ -80,6 +82,8 @@ class AdvertController extends AbstractController
      */
     public function edit(Advert $advert, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ADVERT_EDIT', $advert);
+
         $form = $this->createForm(AdvertType::class, $advert, ['csrf_protection' => false]);
 
         $json = $request->getContent();
@@ -101,15 +105,30 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{id}/archive", name="deactivate", methods={"GET"})
      */
-    public function delete(Advert $advert)
+    public function deactivate(Advert $advert,  Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($advert);
-        $em->flush();
+        $this->denyAccessUnlessGranted('ADVERT_DEACTIVATE', $advert);
 
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+        $request = $advert->getIsActive();
+
+        $json = $request->getContent();
+        $jsonArray = json_decode($json, true);
+
+        // $json->submit($jsonArray);
+
+        if ($jsonArray->isValid() || $advert->getIsActive(true)){
+            $advert->setIsActive(false);
+            $advert->isReported(true);    
+            $this->getDoctrine()->getManager()->flush();
+        
+            return $this->json($advert, Response::HTTP_OK);
+        }
+
+        $errorsString = (string) $form->getErrors(true);
+        return $this->json($errorsString, Response::HTTP_BAD_REQUEST);
+        
     }
 
     /**
