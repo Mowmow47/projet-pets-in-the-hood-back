@@ -82,7 +82,7 @@ App\Entity\User:
         lastname: '<UserLastName()>'
         isBlocked: '<boolean()>'
         address (unique): '@address_*'
-    user_{3..20}:
+    user_{21..40}:
         email: '<email()>'
         roles: ['ROLE_USER']
         password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'

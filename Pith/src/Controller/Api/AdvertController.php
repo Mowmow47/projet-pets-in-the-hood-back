@@ -78,7 +78,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="edit", methods={"PATCH"})
+     * @Route("/{id}", name="edit",  methods={"PATCH"})
      */
     public function edit(Advert $advert, Request $request): Response
     {
@@ -105,30 +105,26 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/archive", name="deactivate", methods={"GET"})
+     * @Route("/{id}/archive", name="deactivate", requirements={"id"="\d+"},  methods={"PATCH"})
      */
-    public function deactivate(Advert $advert,  Request $request)
+    public function deactivate(Advert $advert, Request $request)
     {
-        $this->denyAccessUnlessGranted('ADVERT_DEACTIVATE', $advert);
-
-        $request = $advert->getIsActive();
-
-        $json = $request->getContent();
-        $jsonArray = json_decode($json, true);
-
-        // $json->submit($jsonArray);
-
-        if ($jsonArray->isValid() || $advert->getIsActive(true)){
+        
+        $request = $advert->getid();
+        
+        if ($request) {
+            
             $advert->setIsActive(false);
-            $advert->isReported(true);    
-            $this->getDoctrine()->getManager()->flush();
-        
-            return $this->json($advert, Response::HTTP_OK);
-        }
+            $advert->setIsReported(true);
 
-        $errorsString = (string) $form->getErrors(true);
-        return $this->json($errorsString, Response::HTTP_BAD_REQUEST);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
         
+            return new JsonResponse(Response::HTTP_OK);
+        }
+        
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
 
     /**
