@@ -2,19 +2,19 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Pet;
+use \App\Entity\Advert;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class PetVoter extends Voter
+class AdvertVoter extends Voter
 {
     protected function supports(string $attribute, $subject): bool
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['PET_EDIT', 'PET_DELETE'])
-            && $subject instanceof Pet;
+        return in_array($attribute, ['ADVERT_EDIT', 'ADVERT_DELETE'])
+            && $subject instanceof Advert;
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
@@ -24,24 +24,22 @@ class PetVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        
+        dd($user, $subject);
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-
-            case 'PET_EDIT':
+            case 'ADVERT_EDIT':
                 if ($user == $subject->getUser() ||
                     in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                     return true;
                 }
                 break;
-            case 'PET_DELETE':
+            case 'ADVERT_DELETE':
                 if ($user == $subject->getUser() ||
                 in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                 return true;
                 }
-                
         }
 
         return false;
