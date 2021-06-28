@@ -87,10 +87,16 @@ class Advert
      */
     private $picture;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isReported;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
         $this->isActive = false;
+        $this->isReported = false;
     }
 
     public function getId(): ?int
@@ -229,7 +235,19 @@ class Advert
 
         return $this;
     }
-
+  
+    public function getIsReported(): ?bool
+    {
+        return $this->isReported;
+    }
+    
+    public function setIsReported(bool $isReported): self
+    {
+        $this->isReported = $isReported;
+        
+        return $this;
+    }
+    
     /**
      * @ORM\PreUpdate
      */

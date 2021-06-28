@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdvertController!{% endblock %}
+
+{% block body %}
+    <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+        {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.dateOfLoss) }}
+        {{ form_row(form.dateOfDiscovery) }}
+        {{ form_row(form.isActive) }}
+        {{ form_row(form.isReported) }}
+        <button class="btn btn-success">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
