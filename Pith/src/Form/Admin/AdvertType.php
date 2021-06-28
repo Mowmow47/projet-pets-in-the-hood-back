@@ -4,6 +4,7 @@ namespace App\Form\Admin;
 
 use App\Entity\Advert;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +15,16 @@ class AdvertType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('dateOfLoss')
-            ->add('dateOfDiscovery')
+            ->add('dateOfLoss', DateTimeType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'mapped' => false,
+            ])
+            ->add('dateOfDiscovery', DateTimeType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'mapped' => false
+            ])
             ->add('isActive')
             ->add('isReported')
         ;

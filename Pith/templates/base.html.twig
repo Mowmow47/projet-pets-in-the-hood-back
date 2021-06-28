@@ -3,11 +3,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Pets in the hood{% endblock %}</title>
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+            <link href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" rel="stylesheet" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
             <link href="/templates/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
             <link href="/templates/css/style.css" rel="stylesheet">
         {% endblock %}
@@ -33,9 +34,9 @@
                                 </div>
                                 <div class="{{ 'advert' in route ? 'show' : 'collapse' }}" id="home-collapse">
                                     <ul class="btn-toggle-nav list-unstyled pb-1">
-                                        <li><a href="{{ path('admin_advert_to_approve') }}" class="nav-link{{ 'advert_to_approve' in route ? ' active' }}"><span class="badge bg-light text-dark">28</span> En attente de validation</a></li>
+                                        <li><a href="{{ path('admin_advert_to_approve') }}" class="nav-link{{ 'advert_to_approve' in route ? ' active' }}"><i class="bi bi-check-circle-fill"></i> En attente de validation</a></li>
                                         <li><a href="{{ path('admin_advert_reported') }}" class="nav-link{{ 'advert_reported' in route ? ' active' }}"><i class="bi bi-exclamation-circle-fill"></i> Signalées</a></li>
-                                        <li><a href="{{ path('admin_advert_inactive') }}" class="nav-link{{ 'advert_inactive' in route ? ' active' }}"><i class="bi bi-exclamation-circle-fill"></i> Inactives</a></li>
+                                        <li><a href="{{ path('admin_advert_inactive') }}" class="nav-link{{ 'advert_inactive' in route ? ' active' }}"><i class="bi bi-eye-slash"></i> Inactives</a></li>
                                         <li><hr class="dropdown-divider mx-2"></li>
                                         <li><a href="{{ path('admin_advert_browse') }}" class="nav-link{{ 'advert_browse' in route ? ' active' }}"><i class="bi bi-list"></i> Voir la liste</a></li>
                                     </ul>
@@ -47,10 +48,10 @@
                                 </div>
                                 <div class="collapse" id="user-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
-                                        <li><a href="#" class="nav-link"><i class="bi bi-person-lines-fill"></i> Voir la liste</a></li>
-                                        <li><a href="#" class="nav-link"><i class="bi bi-x-circle"></i> Bannis</a></li>
+                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-person-lines-fill"></i> Voir la liste</a></li>
+                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-x-circle"></i> Bannis</a></li>
                                         <li><hr class="dropdown-divider mx-2"></li>
-                                        <li><a href="#" class="nav-link"><i class="bi bi-person-plus-fill"></i> Créer un utilisateur</a></li>
+                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-person-plus-fill"></i> Créer un utilisateur</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -60,7 +61,7 @@
                                 </div>
                                 <div class="collapse" id="pet-collapse">
                                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
-                                        <li><a href="#" class="nav-link"><i class="bi bi-list"></i> Voir la liste</a></li>
+                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-list"></i> Voir la liste</a></li>
                                     </ul>
                                 </div>
                             </li>
