@@ -50,6 +50,9 @@ class PetController extends AbstractController
     public function add(Request $request)
     {
         $pet = new Pet();
+
+        $this->denyAccessUnlessGranted('PET_ADD', $pet);
+
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $jsonArray = json_decode($request->getContent(), true);
@@ -77,6 +80,7 @@ class PetController extends AbstractController
      */
     public function edit(Pet $pet, Request $request)
     {
+        $this->denyAccessUnlessGranted('PET_EDIT', $pet);
         $form = $this->createForm(PetType::class, $pet, ['csrf_protection' => false]);
 
         $json = $request->getContent();
@@ -104,6 +108,8 @@ class PetController extends AbstractController
      */
     public function delete(Pet $pet)
     {
+        $this->denyAccessUnlessGranted('PET_DELETE', $pet);
+
         $em = $this->getDoctrine()->getManager();
         $em->remove($pet);
         $em->flush();

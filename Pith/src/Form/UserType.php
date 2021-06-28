@@ -19,6 +19,7 @@ class UserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('firstname')
             ->add('lastname')
+            ->add('address')
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
 
                 $user = $event->getData();

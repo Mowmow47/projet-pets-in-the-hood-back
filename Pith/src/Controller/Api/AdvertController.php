@@ -53,6 +53,8 @@ class AdvertController extends AbstractController
     public function add(Request $request): Response
     {
         $advert = new Advert();
+        $this->denyAccessUnlessGranted('ADVERT_ADD', $advert);
+    
         $form = $this->createForm(AdvertType::class, $advert, ['csrf_protection' => false]);
 
         $json = $request->getContent();
@@ -80,6 +82,8 @@ class AdvertController extends AbstractController
      */
     public function edit(Advert $advert, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ADVERT_EDIT', $advert);
+
         $form = $this->createForm(AdvertType::class, $advert, ['csrf_protection' => false]);
 
         $json = $request->getContent();
@@ -105,6 +109,8 @@ class AdvertController extends AbstractController
      */
     public function delete(Advert $advert)
     {
+        $this->denyAccessUnlessGranted('ADVERT_DELETE', $advert);
+        
         $em = $this->getDoctrine()->getManager();
         $em->remove($advert);
         $em->flush();
