@@ -13,7 +13,7 @@ class PetVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['PET_EDIT', 'PET_DELETE'])
+        return in_array($attribute, ['PET_ADD', 'PET_EDIT', 'PET_DELETE'])
             && $subject instanceof Pet;
     }
 
@@ -24,10 +24,12 @@ class PetVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        
+       
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
-
+            case 'PET_ADD':
+                return true;
+                break;
             case 'PET_EDIT':
                 if ($user->getId() == $subject->getUser()->getId() ||
                     in_array('ROLE_ADMIN', $user->getRoles())

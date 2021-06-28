@@ -53,6 +53,8 @@ class AdvertController extends AbstractController
     public function add(Request $request): Response
     {
         $advert = new Advert();
+        $this->denyAccessUnlessGranted('ADVERT_ADD', $advert);
+    
         $form = $this->createForm(AdvertType::class, $advert, ['csrf_protection' => false]);
 
         $json = $request->getContent();
