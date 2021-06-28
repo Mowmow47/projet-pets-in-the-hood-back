@@ -24,18 +24,18 @@ class AdvertVoter extends Voter
         if (!$user instanceof UserInterface) {
             return false;
         }
-        dd($user, $subject);
+        
         // ... (check conditions and return true to grant permission) ...
         switch ($attribute) {
             case 'ADVERT_EDIT':
-                if ($user == $subject->getUser() ||
+                if ($user->getId() == $subject->getUser()->getId() ||
                     in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                     return true;
                 }
                 break;
             case 'ADVERT_DELETE':
-                if ($user == $subject->getUser() ||
+                if ($user->getId() == $subject->getUser()->getId() ||
                 in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                 return true;

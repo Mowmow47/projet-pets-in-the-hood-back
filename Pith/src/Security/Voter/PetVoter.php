@@ -29,14 +29,14 @@ class PetVoter extends Voter
         switch ($attribute) {
 
             case 'PET_EDIT':
-                if ($user == $subject->getUser() ||
+                if ($user->getId() == $subject->getUser()->getId() ||
                     in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                     return true;
                 }
                 break;
             case 'PET_DELETE':
-                if ($user == $subject->getUser() ||
+                if ($user->getId() == $subject->getUser()->getId() ||
                 in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
                 return true;
