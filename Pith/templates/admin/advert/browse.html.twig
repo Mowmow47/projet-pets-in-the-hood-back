@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+        <div class="row">
+            <h2 class="border-bottom border-success pb-2">&sol;&sol; {{ title }}</h2>
+            {% if adverts|length == 0 %}
+                <div class="mx-auto no-result">Aucun résultat</div>
+            {% else %}
+        </div>
+            <h4 class="mt-3">{{ adverts|length ~ ' résultats' }}</h4>
+            <div class="row border-bottom border-primary align-items-center text-center fw-bold">
+                <div class="col-2 pb-2">Titre</div>
+                <div class="col-4 pb-2">Description</div>
+                <div class="col-1 pb-2">Date de publication</div>
+                <div class="col-1 pb-2">Date de modification</div>
+                <div class="col-1 pb-2">Auteur</div>
+                <div class="col-3 pb-2">Actions</div>
+            </div>
+            {% for advert in adverts %}
+                <div class="row align-items-center item">
+                    <div class="col-2 p-2">{{ advert.title }}</div>
+                    <div class="col-4 p-2">{{ advert.description > 100 ? advert.description|slice(0, 101)|split(' ')|slice(0, -1)|join(' ') ~ '…' : advert.description }}</div>
+                    <div class="col-1 p-2 text-center">{{ advert.createdAt|date('Y-m-d H:i') }}</div>
+                    <div class="col-1 p-2 text-center">{{ advert.updatedAt is not null ? advert.updatedAt|date('Y-m-d H:i') : '-' }}</div>
+                    <div class="col-1 p-2 text-center">{{ advert.user }}</div>
+                    <div class="col-3 p-2 text-center">
+                        {% if 'advert_to_approve' in route %}
+                            <form action="{{ path('admin_advert_approve', {id: advert.id}) }}" method="post" class="d-inline m-1">
+                                <button class="btn btn-outline-success"><i class="bi bi-check-circle"></i></button>
+                                <input type="hidden" name="_token" value="{{ csrf_token('approveAdvert') }}">
+                            </form>
+                        {% endif %}
+                        <a class="btn btn-outline-primary m-1" href="{{ path('admin_advert_read', {'id': advert.id}) }}"><i class="bi bi-eye"></i></a>
+                        <a class="btn btn-outline-warning m-1" href="{{ path('admin_advert_edit', {'id': advert.id}) }}"><i class="bi bi-gear"></i></a>
+                        {% if 'advert_inactive' not in route %}
+                            <form action="{{ path('admin_advert_deactivate', {id: advert.id, redirect: route}) }}" method="post" class="d-inline m-1">
+                                <button class="btn btn-outline-danger"><i class="bi bi-lock"></i></button>
+                                <input type="hidden" name="_token" value="{{ csrf_token('deactivateAdvert') }}">
+                            </form>
+                        {% endif %}
+                        <form action="{{ path('admin_advert_delete', {id: advert.id, redirect: route}) }}" method="post" class="d-inline m-1">
+                            <button class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></button>
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="_token" value="{{ csrf_token('deleteAdvert') }}">
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

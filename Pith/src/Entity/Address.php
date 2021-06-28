@@ -30,6 +30,11 @@ class Address
      */
     private $longitude;
 
+    public function __toString()
+    {
+        return $this->latitude.' '.$this->longitude;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
