@@ -15,9 +15,8 @@ class AdvertType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            // TODO: Voir comment envoyer les dates au bon format sous insomnia pour tester le bon fonctionnement
-            //->add('dateOfLoss', TextType::class)
-            //->add('dateOfDiscovery', TextType::class)
+            ->add('dateOfLoss')
+            ->add('dateOfDiscovery')
             ->add('address')
             ->add('user')
             ->add('pet')

@@ -17,6 +17,7 @@
                     {{ form_row(form.email) }}
                     {{ form_row(form.firstname, {'label': 'Prénom'}) }}
                     {{ form_row(form.lastname, {'label': 'Nom'}) }}
+                    {{ form_row(form.picture, {'label': 'Avatar'}) }}
                     <button class="btn btn-success mb-2">Modifier</button> <a class="btn btn-primary mb-2" href="{{ path('admin_user_read', {id: userId}) }}">Retour</a>
                     {{ form_end(form) }}
                     <a href="{{ path('admin_user_edit_password', {id: userId}) }}" class="link-success">Modifier mon mot de passe</a>

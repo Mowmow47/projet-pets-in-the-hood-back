@@ -5,6 +5,7 @@ namespace App\Form\Admin;
 use App\Entity\Advert;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,6 +28,10 @@ class AdvertType extends AbstractType
             ])
             ->add('isActive')
             ->add('isReported')
+            ->add('picture', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+            ])
         ;
     }
 
