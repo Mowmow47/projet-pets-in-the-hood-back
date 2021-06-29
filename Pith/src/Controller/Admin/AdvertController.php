@@ -5,9 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Advert;
 use App\Form\Admin\AdvertType;
 use App\Repository\AdvertRepository;
+use App\Service\PictureUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -71,10 +73,9 @@ class AdvertController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
      */
-    public function edit(Advert $advert, Request $request): Response
+    public function edit(Advert $advert, Request $request, PictureUploader $pictureUploader): Response
     {
         $form = $this->createForm(AdvertType::class, $advert);
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -89,9 +90,19 @@ class AdvertController extends AbstractController
                 $advert->setDateOfDiscovery($dateOfDiscovery);
             }
 
-            $this->getDoctrine()->getManager()->flush();
+            $picture = $form->get('picture')->getData();
 
-            $this->addFlash('success', 'L\'annonce a bien mise à jour.');
+            if ($picture) {
+                try {
+                    $pictureFileName = $pictureUploader->upload($picture, 'advert');
+                    $advert->setPicture($pictureFileName);
+                } catch (\Exception $e) {
+                    throw new UnsupportedMediaTypeHttpException($e);
+                }
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'L\'annonce a bien été mise à jour.');
 
             return $this->redirectToRoute('admin_advert_read', ["id" => $advert->getId()]);
         }
@@ -123,7 +134,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/approve/{id}", name="approve", requirements={"id"="\d+"}, methods={"POST"})
+     * @Route("/{id}/approve", name="approve", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function approve(Advert $advert, Request $request)
     {
@@ -146,7 +157,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/deactivate/{id}", name="deactivate", requirements={"id"="\d+"}, methods={"POST"})
+     * @Route("/{id}/deactivate", name="deactivate", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function deactivate(Advert $advert, Request $request)
     {

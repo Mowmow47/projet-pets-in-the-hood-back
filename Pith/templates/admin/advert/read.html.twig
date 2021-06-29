@@ -9,10 +9,9 @@
 {% block body %}
 
     {% block javascript %}
-    
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    
     {% endblock %}
+
     <div class="col-10">
         <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
             <div class="row">
@@ -42,15 +41,14 @@
                     <a class="btn btn-success mt-3" href="{{ referer ?: path('admin_advert_browse') }}">Retour</a>
                 </div>
                 <div class="p-3 pt-0 col-4">
-                    <div class="mb-2 float-end">
+                    <div class="mb-2 text-end w-100">
                         {% include "/admin/advert/_buttons.html.twig" %}
                     </div>
                     {% if advert.picture is not null %}
-                        <img src="{{ asset('/uploads/pictures/' ~ advert.picture) }}" class="img-fluid" alt="...">
+                        <img src="{{ asset('/uploads/pictures/' ~ advert.picture) }}" class="picture mt-2 float-end">
                     {% endif %}
                 </div>
             </div>
-        
             <script>
                 var mymap = L.map('mapid').setView([{{ advert.address.latitude }}, {{ advert.address.longitude }}], 13);
 
@@ -65,7 +63,6 @@
 
                 var marker = L.marker([{{ advert.address.latitude }}, {{ advert.address.longitude }}]).addTo(mymap);
             </script>
-            
         </div>
     </div>
 

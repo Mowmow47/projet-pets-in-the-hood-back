@@ -17,6 +17,7 @@
                     {{ form_row(form.description) }}
                     {{ form_row(form.dateOfLoss, {'label': 'Date de la disparition'}) }}
                     {{ form_row(form.dateOfDiscovery, {'label': 'Date de la découverte'}) }}
+                    {{ form_row(form.picture, {'label': 'Photo'}) }}
                     {{ form_row(form.isActive, {'label': 'Active'}) }}
                     {{ form_row(form.isReported, {'label': 'Signalée'}) }}
                     <button class="btn btn-success">Modifier</button> <a class="btn btn-primary" href="{{ app.request.headers.get('referer') ?: path('admin_advert_browse') }}">Retour</a>

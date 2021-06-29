@@ -10,9 +10,7 @@
 {% block body %}
 
     {% block javascript %}
-    
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    
     {% endblock %}
     <div class="col-10">
         <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
@@ -41,7 +39,7 @@
                 </div>
                 <div class="p-3 pt-0 col-4">
                     {% if user.picture is not null %}
-                        <img src="{{ asset('/uploads/pictures/' ~ user.picture) }}" class="img-fluid mt-2" alt="...">
+                        <img src="{{ asset('/uploads/pictures/' ~ user.picture) }}" class="picture mt-2 float-end" alt="Photo de {{ user.firstname ~ ' ' ~ user.lastname }}">
                     {% endif %}
                 </div>
             </div>
