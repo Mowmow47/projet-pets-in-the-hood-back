@@ -20,72 +20,74 @@
     <body>
         <main class="container-fluid">
             <div class="row">
-                <div class="col-2 gx-0">
-                    <nav class="menu flex-column p-2 text-white">
-                        <a href="/" class="d-flex align-items-center my-3 mb-md-0 me-md-auto text-decoration-none main mx-auto">
-                            <img class="rounded-circle bg-white me-2" src="/templates/logo.svg" width="32" height="32">
-                            <span class="fs-5">PITH - Administration</span>
-                        </a>
-                        <hr>
-                        <ul class="nav nav-pills flex-column mb-auto">
-                            <li class="nav-item d-grid gap-2">
-                                <div class="btn btn-toggle text-start fs-5 {{ 'advert' in route ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="{{ 'advert' in route ? 'true' : 'false' }}">
-                                    <i class="bi bi-newspaper"></i> Annonces
-                                </div>
-                                <div class="{{ 'advert' in route ? 'show' : 'collapse' }}" id="home-collapse">
-                                    <ul class="btn-toggle-nav list-unstyled pb-1">
-                                        <li><a href="{{ path('admin_advert_to_approve') }}" class="nav-link{{ 'advert_to_approve' in route ? ' active' }}"><i class="bi bi-check-circle-fill"></i> En attente de validation</a></li>
-                                        <li><a href="{{ path('admin_advert_reported') }}" class="nav-link{{ 'advert_reported' in route ? ' active' }}"><i class="bi bi-exclamation-circle-fill"></i> Signalées</a></li>
-                                        <li><a href="{{ path('admin_advert_inactive') }}" class="nav-link{{ 'advert_inactive' in route ? ' active' }}"><i class="bi bi-eye-slash"></i> Inactives</a></li>
-                                        <li><hr class="dropdown-divider mx-2"></li>
-                                        <li><a href="{{ path('admin_advert_browse') }}" class="nav-link{{ 'advert_browse' in route ? ' active' }}"><i class="bi bi-list"></i> Voir la liste</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item d-grid gap-2">
-                                <div class="btn btn-toggle collapsed text-start fs-5" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
-                                    <i class="bi bi-people-fill"></i> Utilisateurs
-                                </div>
-                                <div class="collapse" id="user-collapse">
-                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
-                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-person-lines-fill"></i> Voir la liste</a></li>
-                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-x-circle"></i> Bannis</a></li>
-                                        <li><hr class="dropdown-divider mx-2"></li>
-                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-person-plus-fill"></i> Créer un utilisateur</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item d-grid gap-2">
-                                <div class="btn btn-toggle collapsed text-start fs-5" data-bs-toggle="collapse" data-bs-target="#pet-collapse" aria-expanded="false">
-                                    <i class="bi bi-twitter"></i> Animaux
-                                </div>
-                                <div class="collapse" id="pet-collapse">
-                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
-                                        <li><a href="#" class="nav-link disabled"><i class="bi bi-list"></i> Voir la liste</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                        <hr>
-                        <div class="dropdown">
-                            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ asset('/uploads/images/') }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2 border border-dark">
-                                <strong>Mowmow 47</strong>
+                {% if route != 'app_login' %}
+                    <div class="col-2 gx-0">
+                        <nav class="menu flex-column p-2 text-white">
+                            <a href="/" class="d-flex align-items-center my-3 mb-md-0 me-md-auto text-decoration-none main mx-auto">
+                                <img class="rounded-circle bg-white me-2" src="/templates/logo.svg" width="32" height="32">
+                                <span class="fs-5">PITH - Administration</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-chat-right-dots text-info"></i> Messagerie</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
+                            <hr>
+                            <ul class="nav nav-pills flex-column mb-auto">
+                                <li class="nav-item d-grid gap-2">
+                                    <div class="btn btn-toggle text-start fs-5 {{ 'advert' in route ? '' : 'collapsed' }}" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="{{ 'advert' in route ? 'true' : 'false' }}">
+                                        <i class="bi bi-newspaper"></i> Annonces
+                                    </div>
+                                    <div class="{{ 'advert' in route ? 'show' : 'collapse' }}" id="home-collapse">
+                                        <ul class="btn-toggle-nav list-unstyled pb-1">
+                                            <li><a href="{{ path('admin_advert_to_approve') }}" class="nav-link{{ 'advert_to_approve' in route ? ' active' }}"><i class="bi bi-check-circle-fill"></i> En attente de validation</a></li>
+                                            <li><a href="{{ path('admin_advert_reported') }}" class="nav-link{{ 'advert_reported' in route ? ' active' }}"><i class="bi bi-exclamation-circle-fill"></i> Signalées</a></li>
+                                            <li><a href="{{ path('admin_advert_inactive') }}" class="nav-link{{ 'advert_inactive' in route ? ' active' }}"><i class="bi bi-eye-slash"></i> Inactives</a></li>
+                                            <li><hr class="dropdown-divider mx-2"></li>
+                                            <li><a href="{{ path('admin_advert_browse') }}" class="nav-link{{ 'advert_browse' in route ? ' active' }}"><i class="bi bi-list"></i> Voir la liste</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item d-grid gap-2">
+                                    <div class="btn btn-toggle collapsed text-start fs-5" data-bs-toggle="collapse" data-bs-target="#user-collapse" aria-expanded="false">
+                                        <i class="bi bi-people-fill"></i> Utilisateurs
+                                    </div>
+                                    <div class="collapse" id="user-collapse">
+                                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
+                                            <li><a href="#" class="nav-link disabled"><i class="bi bi-person-lines-fill"></i> Voir la liste</a></li>
+                                            <li><a href="#" class="nav-link disabled"><i class="bi bi-x-circle"></i> Bannis</a></li>
+                                            <li><hr class="dropdown-divider mx-2"></li>
+                                            <li><a href="#" class="nav-link disabled"><i class="bi bi-person-plus-fill"></i> Créer un utilisateur</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item d-grid gap-2">
+                                    <div class="btn btn-toggle collapsed text-start fs-5" data-bs-toggle="collapse" data-bs-target="#pet-collapse" aria-expanded="false">
+                                        <i class="bi bi-twitter"></i> Animaux
+                                    </div>
+                                    <div class="collapse" id="pet-collapse">
+                                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
+                                            <li><a href="#" class="nav-link disabled"><i class="bi bi-list"></i> Voir la liste</a></li>
+                                        </ul>
+                                    </div>
+                                </li>
                             </ul>
-                        </div>
-                    </nav>
-                </div>
-                <div class="col-10">
-                    {% block body %}{% endblock %}
-                </div>
+                            <hr>
+                            <div class="dropdown">
+                                <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {% if app.user.picture is not null %}
+                                        <img src="{{ asset('/uploads/pictures/' ~ app.user.picture) }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2 border border-dark">
+                                    {% endif %}
+                                    <strong>{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</strong>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+                                    <li><a class="dropdown-item" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                {% endif %}
+                {% block body %}{% endblock %}
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>

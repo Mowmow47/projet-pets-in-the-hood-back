@@ -13,47 +13,48 @@
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     
     {% endblock %}
-    
-    <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
-        <div class="row">
-            <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ advert.title }}</h2>
-        </div>
-        <div class="row">
-            <div class="col-8">
-                <p>Ecrit par <span class="fst-italic">{{ advert.user.firstname ~ ' ' ~ advert.user.lastname }}</span> le {{ advert.createdAt|date('d-m-Y H:i') }}<br />{{ advert.updatedAt is not null ? 'Mis à jour le ' ~ advert.updatedAt|date('d-m-Y H:i') }}
-                <p>
-                    {{ advert.dateOfLoss is not null ? 'Disparu le ' ~ advert.dateOfLoss|date('d-m-Y H:i') }}
-                    {{ advert.dateOfDiscovery is not null ? 'Retrouvé le ' ~ advert.dateOfDiscovery|date('d-m-Y H:i') }}
-                </p>
-                <p>{{ advert.description }}</p>
-                <div id="mapid"></div>
-                <a class="btn btn-success mt-3" href="{{ referer ?: path('admin_advert_browse') }}">Retour</a>
+    <div class="col-10">
+        <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+            <div class="row">
+                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ advert.title }}</h2>
             </div>
-            <div class="p-3 pt-0 col-4">
-                <div class="mb-2 float-end">
-                    {% include "/admin/advert/_buttons.html.twig" %}
+            <div class="row">
+                <div class="col-8">
+                    <p>Ecrit par <span class="fst-italic">{{ advert.user.firstname ~ ' ' ~ advert.user.lastname }}</span> le {{ advert.createdAt|date('d-m-Y H:i') }}<br />{{ advert.updatedAt is not null ? 'Mis à jour le ' ~ advert.updatedAt|date('d-m-Y H:i') }}
+                    <p>
+                        {{ advert.dateOfLoss is not null ? 'Disparu le ' ~ advert.dateOfLoss|date('d-m-Y H:i') }}
+                        {{ advert.dateOfDiscovery is not null ? 'Retrouvé le ' ~ advert.dateOfDiscovery|date('d-m-Y H:i') }}
+                    </p>
+                    <p>{{ advert.description }}</p>
+                    <div id="mapid"></div>
+                    <a class="btn btn-success mt-3" href="{{ referer ?: path('admin_advert_browse') }}">Retour</a>
                 </div>
-                {% if advert.picture is not null %}
-                    <img src="{{ asset('/uploads/pictures/' ~ advert.picture) }}" class="img-fluid" alt="...">
-                {% endif %}
+                <div class="p-3 pt-0 col-4">
+                    <div class="mb-2 float-end">
+                        {% include "/admin/advert/_buttons.html.twig" %}
+                    </div>
+                    {% if advert.picture is not null %}
+                        <img src="{{ asset('/uploads/pictures/' ~ advert.picture) }}" class="img-fluid" alt="...">
+                    {% endif %}
+                </div>
             </div>
-        </div>
-    
-        <script>
-            var mymap = L.map('mapid').setView([{{ advert.address.latitude }}, {{ advert.address.longitude }}], 13);
-
-            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                maxZoom: 18,
-                id: 'mapbox/streets-v11',
-                tileSize: 512,
-                zoomOffset: -1,
-                accessToken: 'pk.eyJ1IjoibW9td293NDciLCJhIjoiY2txZ3U3Z28xMjM5MzJub3YyYTh4ZzY5NCJ9.HQYsySeY73jjy1WMLMhXQw'
-            }).addTo(mymap);
-
-            var marker = L.marker([{{ advert.address.latitude }}, {{ advert.address.longitude }}]).addTo(mymap);
-        </script>
         
+            <script>
+                var mymap = L.map('mapid').setView([{{ advert.address.latitude }}, {{ advert.address.longitude }}], 13);
+
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    accessToken: 'pk.eyJ1IjoibW9td293NDciLCJhIjoiY2txZ3U3Z28xMjM5MzJub3YyYTh4ZzY5NCJ9.HQYsySeY73jjy1WMLMhXQw'
+                }).addTo(mymap);
+
+                var marker = L.marker([{{ advert.address.latitude }}, {{ advert.address.longitude }}]).addTo(mymap);
+            </script>
+            
+        </div>
     </div>
 
 {% endblock %}

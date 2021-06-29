@@ -4,22 +4,26 @@
 {% block title %}{{ title }} - {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
-        <div class="row">
-            <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ title }}</h2>
-        </div>
-        <div class="row justify-content-center mt-3">
-            <div class="col-8">
-                {{ form_start(form) }}
-                {{ form_row(form.title, {'label': 'Titre de l\'annonce'}) }}
-                {{ form_row(form.description) }}
-                {{ form_row(form.dateOfLoss, {'label': 'Date de la disparition'}) }}
-                {{ form_row(form.dateOfDiscovery, {'label': 'Date de la découverte'}) }}
-                {{ form_row(form.isActive, {'label': 'Active'}) }}
-                {{ form_row(form.isReported, {'label': 'Signalée'}) }}
-                <button class="btn btn-success">Modifier</button> <a class="btn btn-primary" href="{{ app.request.headers.get('referer') ?: path('admin_advert_browse') }}">Retour</a>
-                {{ form_end(form) }}
+
+    <div class="col-10">
+        <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+            <div class="row">
+                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ title }}</h2>
+            </div>
+            <div class="row justify-content-center mt-3">
+                <div class="col-8">
+                    {{ form_start(form) }}
+                    {{ form_row(form.title, {'label': 'Titre de l\'annonce'}) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.dateOfLoss, {'label': 'Date de la disparition'}) }}
+                    {{ form_row(form.dateOfDiscovery, {'label': 'Date de la découverte'}) }}
+                    {{ form_row(form.isActive, {'label': 'Active'}) }}
+                    {{ form_row(form.isReported, {'label': 'Signalée'}) }}
+                    <button class="btn btn-success">Modifier</button> <a class="btn btn-primary" href="{{ app.request.headers.get('referer') ?: path('admin_advert_browse') }}">Retour</a>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
     </div>
+
 {% endblock %}
