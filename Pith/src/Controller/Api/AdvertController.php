@@ -78,7 +78,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="edit", methods={"PATCH"})
+     * @Route("/{id}", name="edit",  methods={"PATCH"})
      */
     public function edit(Advert $advert, Request $request): Response
     {
@@ -105,19 +105,30 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @Route("/{id}/archive", name="deactivate", requirements={"id"="\d+"},  methods={"PATCH"})
      */
-    public function delete(Advert $advert)
+    public function deactivate(Advert $advert, Request $request)
     {
-        $this->denyAccessUnlessGranted('ADVERT_DELETE', $advert);
+        $this->denyAccessUnlessGranted('ADVERT_DEACTIVATE', $advert);
+
+        $request = $advert->getid();
         
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($advert);
-        $em->flush();
+        if ($request) {
+            
+            $advert->setIsActive(false);
+            $advert->setIsReported(true);
 
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($advert);
+            $em->flush();
+        
+            return new JsonResponse(['data' => ['message' => 'L\'annoce a été cloturé.']], Response::HTTP_OK);
+
+        }
+        
+        return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
-
+    
     /**
      * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
      */
