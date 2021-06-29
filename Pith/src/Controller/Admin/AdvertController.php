@@ -100,9 +100,20 @@ class AdvertController extends AbstractController
     public function edit(Advert $advert, Request $request): Response
     {
         $form = $this->createForm(AdvertType::class, $advert);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+    
+            $dateOfLoss = $form['dateOfLoss']->getData();
+            $dateOfDiscovery = $form['dateOfDiscovery']->getData();
+
+            if($dateOfLoss) {
+                $advert->setDateOfLoss($dateOfLoss);
+            }
+            if($dateOfDiscovery) {
+                $advert->setDateOfDiscovery($dateOfDiscovery);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 

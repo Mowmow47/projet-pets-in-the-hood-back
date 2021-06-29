@@ -1,0 +1,55 @@
+{% set title = 'Profil de ' ~ user.firstname ~ ' ' ~ user.lastname %}
+{% set referer = app.request.headers.get('referer') %}
+{% if 'edit' in referer %}
+    {% set referer = null %}
+{% endif %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    {% block javascript %}
+    
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    
+    {% endblock %}
+    <div class="col-10">
+        <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+            <div class="row">
+                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span>{{ title }}</h2>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <p><span class="fw-bold">Email :</span> {{ user.email }}</p>
+                    <p><span class="fw-bold">Rôles :</span> {{ user.roles[0] }}</p>
+                    <p><span class="fw-bold">Prénom :</span> {{ user.firstname }}</p>
+                    <p><span class="fw-bold">Nom :</span> {{ user.lastname }}</p>
+                    <div id="mapid"></div>
+                </div>
+                <div class="p-3 pt-0 col-4">
+                    {% if user.picture is not null %}
+                        <img src="{{ asset('/uploads/pictures/' ~ user.picture) }}" class="img-fluid" alt="...">
+                    {% endif %}
+                </div>
+            </div>
+            {% if user.address is not null %}
+                <script>
+                    var mymap = L.map('mapid').setView([{{ user.address.latitude }}, {{ user.address.longitude }}], 13);
+
+                    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                        maxZoom: 18,
+                        id: 'mapbox/streets-v11',
+                        tileSize: 512,
+                        zoomOffset: -1,
+                        accessToken: 'pk.eyJ1IjoibW9td293NDciLCJhIjoiY2txZ3U3Z28xMjM5MzJub3YyYTh4ZzY5NCJ9.HQYsySeY73jjy1WMLMhXQw'
+                    }).addTo(mymap);
+
+                    var marker = L.marker([{{ user.address.latitude }}, {{ user.address.longitude }}]).addTo(mymap).bindPopup('<b>{{ user.firstname ~ ' ' ~ user.lastname }}</b>').openPopup();
+                </script>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

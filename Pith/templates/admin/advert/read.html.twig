@@ -1,57 +1,60 @@
+{% set referer = app.request.headers.get('referer') %}
+{% if 'edit' in referer %}
+    {% set referer = null %}
+{% endif %}
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdvertController!{% endblock %}
+{% block title %}{{ advert.title }} - {{ parent() }}{% endblock %}
 
 {% block body %}
+
+    {% block javascript %}
     
-    {% if adverts|length == 0 %}
-            <div class="mx-auto no-result">Aucun résultat</div>
-        {% else %}
-            <h3>{{ adverts|length ~ ' résultats' }}</h3>
-            <table class="table table-dark table-hover align-middle">
-                <thead class="align-middle">
-                    <tr>
-                        <th scope="col">Titre</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Date de publication</th>
-                        <th scope="col">Date de modification</th>
-                        <th scope="col">Auteur</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for advert in adverts %}
-                    <tr>
-                        <th scope="row">{{ advert.title }}</th>
-                        <td>{{ advert.description > 100 ? advert.description|slice(0, 101)|split(' ')|slice(0, -1)|join(' ') ~ '…' : advert.description }}</td>
-                        <td>{{ advert.createdAt|date('Y-m-d H:i') }}</td>
-                        <td>{{ advert.updatedAt is not null ? advert.updatedAt|date('Y-m-d H:i') }}</td>
-                        <td>{{ advert.user }}</td>
-                        <td>
-                            {% if 'advert_to_approve' in route %}
-                                <form action="{{ path('admin_advert_approve', {id: advert.id}) }}" method="post" class="d-inline">
-                                    <button class="btn btn-outline-success"><i class="bi bi-check-circle"></i></button>
-                                    <input type="hidden" name="_token" value="{{ csrf_token('approveAdvert') }}">
-                                </form>
-                            {% endif %}
-                            <a class="btn btn-outline-primary" href="{{ path('admin_advert_read', {'id': advert.id}) }}"><i class="bi bi-eye"></i></a>
-                            <a class="btn btn-outline-warning" href="{{ path('admin_advert_edit', {'id': advert.id}) }}"><i class="bi bi-gear"></i></a>
-                            {% if 'advert_inactive' not in route %}
-                                <form action="{{ path('admin_advert_deactivate', {id: advert.id, redirect: route}) }}" method="post" class="d-inline">
-                                    <button class="btn btn-outline-danger"><i class="bi bi-lock"></i></button>
-                                    <input type="hidden" name="_token" value="{{ csrf_token('deactivateAdvert') }}">
-                                </form>
-                            {% endif %}
-                            <form action="{{ path('admin_advert_delete', {id: advert.id, redirect: route}) }}" method="post" class="d-inline">
-                                <button class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></button>
-                                <input type="hidden" name="_method" value="delete">
-                                <input type="hidden" name="_token" value="{{ csrf_token('deleteAdvert') }}">
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>                
-        {% endif %}
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    
+    {% endblock %}
+    <div class="col-10">
+        <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+            <div class="row">
+                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ advert.title }}</h2>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <p>Ecrit par <span class="fst-italic">{{ advert.user.firstname ~ ' ' ~ advert.user.lastname }}</span> le {{ advert.createdAt|date('d-m-Y H:i') }}<br />{{ advert.updatedAt is not null ? 'Mis à jour le ' ~ advert.updatedAt|date('d-m-Y H:i') }}
+                    <p>
+                        {{ advert.dateOfLoss is not null ? 'Disparu le ' ~ advert.dateOfLoss|date('d-m-Y H:i') }}
+                        {{ advert.dateOfDiscovery is not null ? 'Retrouvé le ' ~ advert.dateOfDiscovery|date('d-m-Y H:i') }}
+                    </p>
+                    <p>{{ advert.description }}</p>
+                    <div id="mapid"></div>
+                    <a class="btn btn-success mt-3" href="{{ referer ?: path('admin_advert_browse') }}">Retour</a>
+                </div>
+                <div class="p-3 pt-0 col-4">
+                    <div class="mb-2 float-end">
+                        {% include "/admin/advert/_buttons.html.twig" %}
+                    </div>
+                    {% if advert.picture is not null %}
+                        <img src="{{ asset('/uploads/pictures/' ~ advert.picture) }}" class="img-fluid" alt="...">
+                    {% endif %}
+                </div>
+            </div>
+        
+            <script>
+                var mymap = L.map('mapid').setView([{{ advert.address.latitude }}, {{ advert.address.longitude }}], 13);
+
+                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    accessToken: 'pk.eyJ1IjoibW9td293NDciLCJhIjoiY2txZ3U3Z28xMjM5MzJub3YyYTh4ZzY5NCJ9.HQYsySeY73jjy1WMLMhXQw'
+                }).addTo(mymap);
+
+                var marker = L.marker([{{ advert.address.latitude }}, {{ advert.address.longitude }}]).addTo(mymap);
+            </script>
+            
+        </div>
+    </div>
 
 {% endblock %}
