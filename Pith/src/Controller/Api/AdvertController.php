@@ -109,7 +109,8 @@ class AdvertController extends AbstractController
      */
     public function deactivate(Advert $advert, Request $request)
     {
-        
+        $this->denyAccessUnlessGranted('ADVERT_DEACTIVATE', $advert);
+
         $request = $advert->getid();
         
         if ($request) {
@@ -121,7 +122,7 @@ class AdvertController extends AbstractController
             $em->persist($advert);
             $em->flush();
         
-            return new JsonResponse(Response::HTTP_OK);
+            return new JsonResponse(['data' => ['message' => 'L\'annoce a été cloturé.' ]], Response::HTTP_OK);
         }
         
         return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
