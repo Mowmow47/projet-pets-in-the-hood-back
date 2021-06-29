@@ -13,7 +13,7 @@ class AdvertVoter extends Voter
     {
         // replace with your own logic
         // https://symfony.com/doc/current/security/voters.html
-        return in_array($attribute, ['ADVERT_ADD', 'ADVERT_EDIT', 'ADVERT_DELETE'])
+        return in_array($attribute, ['ADVERT_ADD', 'ADVERT_EDIT', 'ADVERT_DEACTIVATE'])
             && $subject instanceof Advert;
     }
 
@@ -36,7 +36,7 @@ class AdvertVoter extends Voter
                     return true;
                 }
                 break;
-            case 'ADVERT_DELETE':
+            case 'ADVERT_DEACTIVATE':
                 if ($user->getId() == $subject->getUser()->getId() ||
                 in_array('ROLE_ADMIN', $user->getRoles())
                 ) {
