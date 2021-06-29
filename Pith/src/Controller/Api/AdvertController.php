@@ -122,12 +122,13 @@ class AdvertController extends AbstractController
             $em->persist($advert);
             $em->flush();
         
-            return new JsonResponse(['data' => ['message' => 'L\'annoce a été cloturé.' ]], Response::HTTP_OK);
+            return new JsonResponse(['data' => ['message' => 'L\'annoce a été cloturé.']], Response::HTTP_OK);
+
         }
         
         return new JsonResponse(['data' => ['message' => 'Une erreur s\'est produite']], Response::HTTP_BAD_REQUEST);
     }
-
+    
     /**
      * @Route("/{id}/picture", name="upload_picture", methods={"POST"})
      */
