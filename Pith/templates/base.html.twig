@@ -72,12 +72,14 @@
                                 <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                                     {% if app.user.picture is not null %}
                                         <img src="{{ asset('/uploads/pictures/' ~ app.user.picture) }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2 border border-dark">
+                                    {% else %}
+                                        <img src="{{ asset('/templates/css/bootstrap-icons/person-circle.svg') }}" alt="Avatar" width="32" height="32" class="rounded-circle me-2 border border-dark">
                                     {% endif %}
                                     <strong>{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</strong>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
                                     <li><a class="dropdown-item" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
+                                    <li><a class="dropdown-item" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
                                     <li><hr class="dropdown-divider"></li>

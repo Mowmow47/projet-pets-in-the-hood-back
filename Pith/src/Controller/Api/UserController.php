@@ -110,6 +110,8 @@ class UserController extends AbstractController
      */
     public function edit(User $user, Request $request,  UserPasswordHasherInterface $passwordHasher)
     {
+        $this->denyAccessUnlessGranted('USER_EDIT', $user);
+        
         $form = $this->createForm(UserType::class, $user, ['csrf_protection' => false]);
 
         $json = $request->getContent();

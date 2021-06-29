@@ -93,6 +93,10 @@ a.main:hover {
     z-index: 1;
 }
 
+.card-header {
+    background: #1d1c1b;
+}
+
 .no-result {
     width:150px;
 }
@@ -113,14 +117,14 @@ input, select, textarea {
     border-color: #6c757d !important;
 }
 
-input:focus, select:focus, textarea:focus {
-    border-color: #0d6efd !important;
-}
-
 /* ALERTS */
 
 .alert-danger {
     background-color: #dc3545 ;
     border: none;
     color: #FFF;
+}
+
+.card {
+    min-width: 250px;
 }
