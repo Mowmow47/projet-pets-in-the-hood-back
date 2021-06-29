@@ -3,8 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\Admin\UserPasswordType;
+use App\Form\Admin\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,6 +33,55 @@ class UserController extends AbstractController
     {
         return $this->render('admin/user/read.html.twig', [
             'user' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
+     */
+    public function edit(User $user, Request $request): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+    
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('admin_user_read', ["id" => $user->getId()]);
+        }
+
+        return $this->render('admin/user/edit.html.twig', [
+            'id' => $user->getId(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit-password", name="edit_password")
+     */
+    public function editPassword(int $id, Request $request, UserPasswordHasherInterface $encoder)
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $user->setPassword($encoder->hashPassword($user, $user->getPassword()));
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Mot de passe modifié.');
+
+            return $this->redirectToRoute('admin_user_read', ['id' => $id]);
+        }
+
+        return $this->render('admin/user/edit.password.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }

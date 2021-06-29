@@ -95,7 +95,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/edit/{id}", name="edit", requirements={"id"="\d+"})
+     * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
      */
     public function edit(Advert $advert, Request $request): Response
     {
@@ -126,7 +126,7 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="delete", requirements={"id"="\d+"}, methods={"POST"})
+     * @Route("/{id}/delete", name="delete", requirements={"id"="\d+"}, methods={"POST"})
      */
     public function delete(Advert $advert, Request $request)
     {

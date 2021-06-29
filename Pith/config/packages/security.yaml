@@ -56,5 +56,4 @@ security:
         - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         
     role_hierarchy:
-        ROLE_SUPERADMIN: ROLE_ADMIN
         ROLE_ADMIN: ROLE_USER

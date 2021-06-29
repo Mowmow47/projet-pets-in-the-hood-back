@@ -17,7 +17,7 @@
     <div class="col-10">
         <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
             <div class="row">
-                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span>{{ title }}</h2>
+                <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ title }}</h2>
             </div>
             <div class="row">
                 <div class="col-8">
@@ -29,7 +29,7 @@
                 </div>
                 <div class="p-3 pt-0 col-4">
                     {% if user.picture is not null %}
-                        <img src="{{ asset('/uploads/pictures/' ~ user.picture) }}" class="img-fluid" alt="...">
+                        <img src="{{ asset('/uploads/pictures/' ~ user.picture) }}" class="img-fluid mt-2" alt="...">
                     {% endif %}
                 </div>
             </div>
