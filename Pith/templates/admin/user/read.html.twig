@@ -19,6 +19,18 @@
             <div class="row">
                 <h2 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ title }}</h2>
             </div>
+            {% for label, messages in app.flashes %}
+                <div class="row justify-content-center">
+                    <div class="col-8">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} bg-{{ label }} border-{{ label }} alert-dismissible fade show text-white my-2" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
             <div class="row">
                 <div class="col-8">
                     <p><span class="fw-bold">Email :</span> {{ user.email }}</p>

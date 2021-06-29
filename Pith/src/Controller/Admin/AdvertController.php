@@ -69,32 +69,6 @@ class AdvertController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add")
-     */
-    public function add(Request $request): Response
-    {
-        $advert = new Advert();
-        
-        $form = $this->createForm(AdvertType::class, $advert);
-        
-        // handleRequest prend les données en POST et les place dans $form puis dans $advert
-        $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($advert);
-            $em->flush();
-
-            return $this->redirectToRoute('admin_advert_read', ["id" => $advert->getId()]);
-        }
-
-        return $this->render('admin/advert/add.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}/edit", name="edit", requirements={"id"="\d+"})
      */
     public function edit(Advert $advert, Request $request): Response
@@ -117,6 +91,8 @@ class AdvertController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'L\'annonce a bien mise à jour.');
+
             return $this->redirectToRoute('admin_advert_read', ["id" => $advert->getId()]);
         }
 
@@ -138,6 +114,8 @@ class AdvertController extends AbstractController
             $em->remove($advert);
             $em->flush();
 
+            $this->addFlash('success', 'L\'annonce a bien été supprimée.');
+
             return $this->redirectToRoute($redirect);
         }
 
@@ -158,6 +136,8 @@ class AdvertController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();
+
+            $this->addFlash('success', 'L\'annonce a bien été approuvée.');
 
             return $this->redirectToRoute('admin_advert_to_approve');
         }
@@ -181,6 +161,8 @@ class AdvertController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($advert);
             $em->flush();
+
+            $this->addFlash('success', 'L\'annonce a bien été désactivée.');
 
             return $this->redirectToRoute($redirect);
         }

@@ -48,6 +48,8 @@ class UserController extends AbstractController
     
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
+
             return $this->redirectToRoute('admin_user_read', ["id" => $user->getId()]);
         }
 
@@ -75,7 +77,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
-            $this->addFlash('success', 'Mot de passe modifié.');
+            $this->addFlash('success', 'Le mot de passe a bien été modifié.');
 
             return $this->redirectToRoute('admin_user_read', ['id' => $id]);
         }
