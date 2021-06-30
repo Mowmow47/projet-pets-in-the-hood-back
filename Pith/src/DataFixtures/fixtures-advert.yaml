@@ -1,0 +1,19 @@
+App\Entity\Advert:
+    advert_{1..20}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
+        isActive: '<boolean()>'
+        address (unique): '@address_*'
+        user: '@user_*'
+        pet: '@pet_*'
+
+    advert_{21..40}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        date_of_discovery: '<dateTimeBetween($date_of_loss, "now")>'
+        isActive: '<boolean()>'
+        address (unique): '@address_*'
+        user: '@user_*'

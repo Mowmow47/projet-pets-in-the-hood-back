@@ -1,0 +1,41 @@
+{% set referer = app.request.headers.get('referer') %}
+{% if 'edit' in referer %}
+    {% set referer = null %}
+{% endif %}
+{% extends 'base.html.twig' %}
+
+{% block title %} Administration - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-10">
+        <div class="container-xxl bg-dark mt-3 p-3 rounded text-white">
+            <div class="row">
+                <h1 class="border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> Accueil</h1>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-10 py-5 text-center">
+                    <div class="card mx-4 rounded border-warning bg-dark text-warning d-inline-block fw-bold">
+                        <div class="card-header bg-warning text-dark text-start">&sol;&sol; En attente de validation</div>
+                        <div class="card-body text-center">
+                            <h1 class="fw-bold">{{ awaitingAdverts|length }}</h1>
+                        </div>
+                    </div>
+                    <div class="card mx-4 rounded border-danger bg-dark text-danger d-inline-block fw-bold">
+                        <div class="card-header bg-danger text-dark text-start">&sol;&sol; Annonces signalées</div>
+                        <div class="card-body text-center">
+                            <h1 class="fw-bold">{{ reportedAdverts|length }}</h1>
+                        </div>
+                    </div>
+                    <div class="card mx-4 rounded border-primary bg-dark text-primary d-inline-block fw-bold">
+                        <div class="card-header bg-primary text-dark text-start">&sol;&sol; Annonces inactives</div>
+                        <div class="card-body text-center">
+                            <h1 class="fw-bold">{{ inactiveAdverts|length }}</h1>
+                        </div>
+                    </div>
+                </div>    
+            </div> 
+        </div>
+    </div>
+
+{% endblock %}

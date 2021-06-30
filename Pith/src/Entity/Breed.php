@@ -16,13 +16,14 @@ class Breed
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
+     * @Groups({"breed_browse"})
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @Groups({"pet_browse", "pet_read"})
+     * @Groups({"pet_browse", "pet_read", "user_browse", "user_read", "advert_browse", "advert_read", "breed_browse"})
      */
     private $name;
 

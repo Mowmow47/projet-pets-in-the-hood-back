@@ -1,0 +1,24 @@
+{% if 'advert_read' in route %}
+    {% set route = 'admin_advert_browse' %}
+{% endif %}
+{% if 'advert_to_approve' in route %}
+    <form action="{{ path('admin_advert_approve', {id: advert.id}) }}" method="post" class="d-inline m-1">
+        <button class="btn btn-outline-success"><i class="bi bi-check-circle"></i></button>
+        <input type="hidden" name="_token" value="{{ csrf_token('approveAdvert') }}">
+    </form>
+{% endif %}
+{% if 'advert_read' not in route %}
+    <a class="btn btn-outline-primary m-1" href="{{ path('admin_advert_read', {'id': advert.id}) }}"><i class="bi bi-eye"></i></a>
+{% endif %}
+<a class="btn btn-outline-warning m-1" href="{{ path('admin_advert_edit', {'id': advert.id}) }}"><i class="bi bi-gear"></i></a>
+{% if 'advert_inactive' not in route %}
+    <form action="{{ path('admin_advert_deactivate', {id: advert.id, redirect: route}) }}" method="post" class="d-inline m-1">
+        <button class="btn btn-outline-danger"><i class="bi bi-lock"></i></button>
+        <input type="hidden" name="_token" value="{{ csrf_token('deactivateAdvert') }}">
+    </form>
+{% endif %}
+<form action="{{ path('admin_advert_delete', {id: advert.id, redirect: route}) }}" method="post" class="d-inline m-1">
+    <button class="btn btn-outline-danger"><i class="bi bi-x-circle"></i></button>
+    <input type="hidden" name="_method" value="delete">
+    <input type="hidden" name="_token" value="{{ csrf_token('deleteAdvert') }}">
+</form>

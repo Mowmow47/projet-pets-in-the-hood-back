@@ -1,0 +1,17 @@
+App\Entity\User:
+    user_1:
+        email: 'o@o.o'
+        roles: ['ROLE_ADMIN']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: 'Morgan'
+        lastname: 'Dup.'
+        isBlocked: '<boolean()>'
+        address (unique): '@address_*'
+    user_2:
+        email: 'a@a.a'
+        roles: ['ROLE_USER']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: 'Morgan'
+        lastname: 'Dup.2'
+        isBlocked: '<boolean()>'
+        address (unique): '@address_*'

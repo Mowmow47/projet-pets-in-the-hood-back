@@ -1,0 +1,4 @@
+App\Entity\Address:
+    address_{1..200}:
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'

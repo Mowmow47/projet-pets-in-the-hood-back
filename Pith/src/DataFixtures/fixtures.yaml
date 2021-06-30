@@ -1,0 +1,82 @@
+App\Entity\Address:
+    address_{1..200}:
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'
+
+App\Entity\Advert:
+    advert_{1..20}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_loss: '<dateTimeBetween("-6 months", "now")>'
+        createdAt: '$date_of_loss'
+        isActive: '<boolean()>'
+        isReported: '<boolean()>'
+        address (unique): '@address_*'
+        user: '@user_*'
+        pet: '@pet_*'
+
+    advert_{21..40}:
+        title: '<sentence()>'
+        description: '<text()>'
+        date_of_discovery: '<dateTimeBetween("-6 months", "now")>'
+        createdAt: '$date_of_discovery'
+        isActive: '<boolean()>'
+        isReported: '<boolean()>'
+        address (unique): '@address_*'
+        user: '@user_*'
+
+App\Entity\Breed:
+    breed_{1..20}:
+        name: '<Petbreed("chat")>'
+    breed_{21..40}:
+        name: '<PetBreed("chien")>'   
+
+App\Entity\Type:
+    type_1:
+        name: 'chat'
+    type_2:
+        name: 'chien'
+
+App\Entity\Pet:
+    pet_{1..20}:
+        name: '<PetName()>'
+        id_card: '<regexify("25026[0-9]{10}")>'
+        tattoo: '<regexify("[0-9]{3}[A-Z]{3}")>'
+        description: '<sentence()>'
+        breed: '@breed_<numberbetween(1, 20)>'
+        type: '@type_1'
+        user: '@user_*'
+    pet_{21..40}:
+        name: '<PetName()>'
+        id_card: '<regexify("25026[0-9]{10}")>'
+        tattoo: '<regexify("[0-9]{3}[A-Z]{3}")>'
+        description: '<sentence()>'
+        breed: '@breed_<numberbetween(21, 40)>'
+        type: '@type_2'
+        user: '@user_*'    
+
+App\Entity\User:
+    user_1:
+        email: 'o@o.o'
+        roles: ['ROLE_ADMIN']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: '<UserFirstName()>'
+        lastname: '<UserLastName()>'
+        isBlocked: '<boolean()>'
+        address (unique): '@address_*'
+    user_2:
+        email: 'a@a.a'
+        roles: ['ROLE_USER']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: '<UserFirstName()>'
+        lastname: '<UserLastName()>'
+        isBlocked: '<boolean()>'
+        address (unique): '@address_*'
+    user_{3..20}:
+        email (unique): '<email()>'
+        roles: ['ROLE_USER']
+        password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
+        firstname: '<UserFirstName()>'
+        lastname: '<UserLastName()>'
+        isBlocked: '<boolean()>'
+        address (unique): '@address_*'
