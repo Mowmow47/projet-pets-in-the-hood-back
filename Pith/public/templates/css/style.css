@@ -93,10 +93,6 @@ a.main:hover {
     z-index: 1;
 }
 
-.card-header {
-    background: #1d1c1b;
-}
-
 .item:hover {
     background: #323539;
 }

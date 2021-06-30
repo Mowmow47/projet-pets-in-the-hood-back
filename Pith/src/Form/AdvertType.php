@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Advert;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,8 +14,8 @@ class AdvertType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('dateOfLoss')
-            ->add('dateOfDiscovery')
+            //->add('dateOfLoss')
+            //->add('dateOfDiscovery')
             ->add('address')
             ->add('user')
             ->add('pet')
