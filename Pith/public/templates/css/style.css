@@ -88,6 +88,23 @@ body > main > div > div > nav > div > ul > li > .dropdown-item:hover i {
 
 /* CONTAINER */
 
+@media(max-width: 1300px) {
+    .menu {
+        width: 200px;
+    }
+}
+
+@media(min-width: 1300px) {
+    .menu {
+        width: 220px;
+    }
+}
+@media(min-width: 1560px)  {
+    .menu {
+        width: 260px;
+    }
+}
+
 .container-xxl {
     z-index: 1;
 }
