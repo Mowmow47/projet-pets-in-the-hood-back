@@ -29,8 +29,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> Annonces</a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="advertDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> Annonces</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="advertDropdown">
                                 <li><a class="dropdown-item{{ 'advert_to_approve' in route ? ' active' }}" href="{{ path('admin_advert_to_approve') }}"><i class="bi bi-check-circle-fill"></i> En attente de validation</a></li>
                                 <li><a class="dropdown-item{{ 'advert_reported' in route ? ' active' }}" href="{{ path('admin_advert_reported') }}"><i class="bi bi-exclamation-circle-fill"></i> Signalées</a></li>
                                 <li><a class="dropdown-item{{ 'advert_inactive' in route ? ' active' }}" href="{{ path('admin_advert_inactive') }}"><i class="bi bi-eye-slash"></i> Inactives</a></li>
@@ -44,6 +44,17 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle disabled" href="#"></i> Animaux</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="mobileUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> {{ app.user.firstname ~ ' ' ~ app.user.lastname }}</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="mobileUserDropdown">
+                                <li><a class="dropdown-item{{ 'user_read' in route ? ' active' }}" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
+                                <li><a class="dropdown-item{{ 'user_edit' in route ? ' active' }}" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -55,7 +66,7 @@
                         <nav class="menu flex-column p-2 text-white">
                             <a href="{{ path('admin_browse') }}" class="d-flex align-items-center my-3 mb-md-0 me-md-auto text-decoration-none main mx-auto">
                                 <img class="rounded-circle bg-white me-2" src="{{ asset('/templates/logo.svg') }}" width="32" height="32">
-                                <span class="fs-5">PITH <span class="d-none d-xl-block">Administration</span></span>
+                                <span class="fs-5 text-wrap">PITH Administration</span></span>
                             </a>
                             <hr>
                             <ul class="nav nav-pills flex-column mb-auto">
