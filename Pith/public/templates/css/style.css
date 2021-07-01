@@ -11,7 +11,7 @@ html {
 
 /* MAIN LINK CLASSES */
 
-.nav-link.active, .menu .dropdown-item:hover {
+.nav-link.active, .dropdown-item:hover, .dropdown-item.active {
     background-color: #00a152 !important;
 }
 
@@ -20,9 +20,8 @@ html {
 .menu {
     position:fixed;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap:wrap;
     background: #333;
-    width: 300px;
     min-height: 100vh;
     height: 100vh;
     height: -webkit-fill-available;
@@ -78,7 +77,7 @@ a.main:hover {
     background: #424242;
 }
 
-.dropdown-item:hover i {
+body > main > div > div > nav > div > ul > li > .dropdown-item:hover i {
     color: #FFF !important;
 }
 
@@ -98,7 +97,7 @@ a.main:hover {
 }
 
 #mapid { 
-    width: 400px;
+    max-width: 400px;
     height: 250px; 
 }
 

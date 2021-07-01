@@ -27,7 +27,7 @@ class UserType extends AbstractType
                     new Length([
                         'min' => 2,
                         'max' => 60,
-                        'minMessage' => 'Votre prénom doit avoir au moins {{ limit }} caractère',
+                        'minMessage' => 'Votre prénom doit avoir au moins {{ limit }} caractères',
                         'maxMessage' => 'Votre prénom ne doit pas contenir plus de {{ limit }} caractères',
                     ])
                 ],
