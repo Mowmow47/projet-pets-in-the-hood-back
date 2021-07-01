@@ -12,19 +12,49 @@
             <link href="/templates/css/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
             <link href="/templates/css/style.css" rel="stylesheet">
         {% endblock %}
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
     </head>
     <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-xl-none">
+            <div class="container-fluid">
+                <a href="{{ path('admin_browse') }}" class="navbar-brand">
+                    <img class="rounded-circle bg-white me-2" src="{{ asset('/templates/logo.svg') }}" width="32" height="32">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> Annonces</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item{{ 'advert_to_approve' in route ? ' active' }}" href="{{ path('admin_advert_to_approve') }}"><i class="bi bi-check-circle-fill"></i> En attente de validation</a></li>
+                                <li><a class="dropdown-item{{ 'advert_reported' in route ? ' active' }}" href="{{ path('admin_advert_reported') }}"><i class="bi bi-exclamation-circle-fill"></i> Signalées</a></li>
+                                <li><a class="dropdown-item{{ 'advert_inactive' in route ? ' active' }}" href="{{ path('admin_advert_inactive') }}"><i class="bi bi-eye-slash"></i> Inactives</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item{{ 'advert_browse' in route ? ' active' }}" href="{{ path('admin_advert_browse') }}"><i class="bi bi-list"></i> Voir la liste</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#"></i> Utilisateurs</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle disabled" href="#"></i> Animaux</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <main class="container-fluid">
             <div class="row">
                 {% if route != 'app_login' %}
-                    <div class="col-2 gx-0">
+                    <div class="col-2 gx-0 d-none d-xl-block">
                         <nav class="menu flex-column p-2 text-white">
                             <a href="{{ path('admin_browse') }}" class="d-flex align-items-center my-3 mb-md-0 me-md-auto text-decoration-none main mx-auto">
-                                <img class="rounded-circle bg-white me-2" src="/templates/logo.svg" width="32" height="32">
+                                <img class="rounded-circle bg-white me-2" src="{{ asset('/templates/logo.svg') }}" width="32" height="32">
                                 <span class="fs-5">PITH - Administration</span>
                             </a>
                             <hr>
