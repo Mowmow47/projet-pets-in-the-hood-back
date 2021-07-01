@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <div class="col-10 mx-auto">
+    <div class="col-xl-10 col-12 mx-auto">
         <div class="container-xxl bg-dark my-3 py-3 rounded text-white">
             <div class="row">
                 <h2 class="border-3 border-bottom border-success pb-2"><span class="fw-bold text-success">&sol;&sol;</span> {{ title }}</h2>
@@ -13,9 +13,9 @@
                 <div class="row justify-content-center">
                     <div class="col-8">
                         {% for message in messages %}
-                            <div class="alert alert-{{ label }} bg-{{ label }} border-{{ label }} alert-dismissible fade show text-white my-2" role="alert">
+                            <div class="alert alert-{{ label }} bg-{{ label }} border-{{ label }} alert-dissible fade show text-white my-2" role="alert">
                                 {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-diss="alert" aria-label="Close"></button>
                             </div>
                         {% endfor %}
                     </div>
@@ -31,21 +31,21 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="row align-items-center text-center fw-bold">
-                        <div class="col-xl-2 col-lg-3 col-sm-4 pb-2">Titre</div>
+                        <div class="col-xl-2 col-lg-3 col-4 pb-2">Titre</div>
                         <div class="col-xl-4 pb-2 d-none d-xl-block">Description</div>
-                        <div class="col-xl-1 col-lg-2 col-sm-3 pb-2">Publié le</div>
-                        <div class="col-xl-1 col-sm-2 pb-2 d-none d-lg-block">Modifié le</div>
-                        <div class="col-xl-1 col-sm-2 pb-2">Auteur</div>
-                        <div class="col-lg-3 col-sm-3 pb-2">Actions</div>
+                        <div class="col-xl-1 col-lg-2 col-3 pb-2">Publié le</div>
+                        <div class="col-xl-1 col-2 pb-2 d-none d-lg-block">Modifié le</div>
+                        <div class="col-xl-1 col-2 pb-2">Auteur</div>
+                        <div class="col-lg-3 col-3 pb-2">Actions</div>
                     </div>
                     {% for advert in adverts %}
                         <div class="row border-top border-secondary align-items-center item">
-                            <div class="col-xl-2 col-lg-3 col-sm-4 p-2">{{ advert.title }}</div>
+                            <div class="col-xl-2 col-lg-3 col-4 p-2">{{ advert.title }}</div>
                             <div class="col-xl-4 p-2 d-none d-xl-block">{{ advert.description > 100 ? advert.description|slice(0, 101)|split(' ')|slice(0, -1)|join(' ') ~ '…' : advert.description }}</div>
-                            <div class="col-xl-1 col-lg-2 col-sm-3 text-center pb-2">{{ advert.createdAt|date('d-m-Y H:i') }}</div>
-                            <div class="col-xl-1 col-sm-2 text-center pb-2 d-none d-lg-block">{{ advert.updatedAt is not null ? advert.updatedAt|date('d-m-Y H:i') : '-' }}</div>
-                            <div class="col-xl-1 col-sm-2 pb-2">{{ advert.user }}</div>
-                            <div class="col-lg-3 col-sm-3 p-2 text-center">
+                            <div class="col-xl-1 col-lg-2 col-3 text-center pb-2">{{ advert.createdAt|date('d-m-Y H:i') }}</div>
+                            <div class="col-xl-1 col-2 text-center pb-2 d-none d-lg-block">{{ advert.updatedAt is not null ? advert.updatedAt|date('d-m-Y H:i') : '-' }}</div>
+                            <div class="col-xl-1 col-2 pb-2">{{ advert.user }}</div>
+                            <div class="col-lg-3 col-3 p-2 text-center">
                                 {% include "/admin/advert/_buttons.html.twig" %}
                             </div>
                         </div>

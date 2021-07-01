@@ -88,6 +88,15 @@ body > main > div > div > nav > div > ul > li > .dropdown-item:hover i {
 
 /* CONTAINER */
 
+@media(min-width: 1200px) {
+    body {
+        padding-right: 50px;
+    }
+    .container-xxl {
+        margin-left: 50px;
+    }
+}
+
 .container-xxl {
     z-index: 1;
 }
