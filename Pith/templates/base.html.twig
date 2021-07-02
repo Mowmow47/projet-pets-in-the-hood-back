@@ -44,17 +44,19 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle disabled" href="#"></i> Animaux</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="mobileUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> {{ app.user.firstname ~ ' ' ~ app.user.lastname }}</a>
-                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="mobileUserDropdown">
-                                <li><a class="dropdown-item{{ 'user_read' in route ? ' active' }}" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
-                                <li><a class="dropdown-item{{ 'user_edit' in route ? ' active' }}" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
-                            </ul>
-                        </li>
+                        {% if app.user is not null %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="mobileUserDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-newspaper"></i> {{ app.user.firstname ~ ' ' ~ app.user.lastname }}</a>
+                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="mobileUserDropdown">
+                                    <li><a class="dropdown-item{{ 'user_read' in route ? ' active' }}" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
+                                    <li><a class="dropdown-item{{ 'user_edit' in route ? ' active' }}" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
+                                </ul>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -118,14 +120,16 @@
                                     {% endif %}
                                     <strong>{{ app.user.firstname ~ ' ' ~ app.user.lastname }}</strong>
                                 </a>
-                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
-                                    <li><a class="dropdown-item" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
-                                    <li><a class="dropdown-item" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
-                                </ul>
+                                {% if app.user is not null %}
+                                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser">
+                                        <li><a class="dropdown-item" href="{{ path('admin_user_read', {id: app.user.id}) }}"><i class="bi bi-journal-album text-success"></i> Voir mon profil</a></li>
+                                        <li><a class="dropdown-item" href="{{ path('admin_user_edit', {id: app.user.id}) }}"><i class="bi bi-sliders text-warning"></i> Éditer</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item disabled" href="#"><i class="bi bi-chat-right-dots text-secondary"></i> Messagerie</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="{{ path('app_logout') }}"><i class="bi bi-box-arrow-right text-danger"></i> Déconnexion</a></li>
+                                    </ul>
+                                {% endif %}
                             </div>
                         </nav>
                     </div>
