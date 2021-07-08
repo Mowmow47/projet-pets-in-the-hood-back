@@ -42,7 +42,7 @@ APP_ENV=dev
 ### Database
 
 There are 2 commands (normal and shorter) for each of the following 3 steps.
-For each step, the two commands have the same action.
+For each step, both commands have the same action.
 
 * Create the database :  
 
