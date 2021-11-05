@@ -2,8 +2,8 @@
 
 https://pith.dp-factory.fr/
 
-Default username : admin@pith.com
-Default password : 123456
+* Default username : admin@pith.com
+* Default password : 123456
 
 For security reasons, the database is reset once a day.
 
