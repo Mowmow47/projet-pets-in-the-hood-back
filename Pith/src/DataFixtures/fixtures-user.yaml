@@ -1,6 +1,6 @@
 App\Entity\User:
     user_1:
-        email: 'o@o.o'
+        email: 'admin@pith.com'
         roles: ['ROLE_ADMIN']
         password: '\$2y\$13\$fDjHH1gAQlNYq6R1aE3cVeRlMaOxbWK87l6OM7OJMiC7YRwLfcTSK'
         firstname: 'Morgan'
