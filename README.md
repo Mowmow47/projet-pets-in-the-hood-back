@@ -1,12 +1,3 @@
-# LIVE VERSION :
-
-https://pith.dp-factory.fr/
-
-* Default username : admin@pith.com
-* Default password : 123456
-
-For security reasons, the database is reset once a day.
-
 # BACK END :dog: :cat:
 
 ## Libraries
